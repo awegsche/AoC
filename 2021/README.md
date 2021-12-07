@@ -1,5 +1,5 @@
 # AoC2021
-my try on 2021's Advent of Code
+My solutions for 2021's Advent of Code
 
 # Progress
 [Day 1](src/bin/day1.rs): <img align=center src="..\\media\\aoc_part2.png#gh-dark-mode-only" height="28" ><img align=center src="..\\media\\aoc_part2_inv.png#gh-light-mode-only" height="28" >
