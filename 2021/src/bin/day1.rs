@@ -1,20 +1,26 @@
 use std::time::Instant;
 
 use aoc;
+use aoc::day::Challenge;
+use aoc_macros::Day;
 use aoc::day::Day;
 use aoc::sdl::sdl2;
 use aoc::sdl::sdl2::pixels::Color;
 use aoc::sdl::sdl2::rect::Point;
 
-const NAME: &str = "day1";
 
-pub struct Day1 {
+#[derive(Day)]
+#[day=1]
+#[year="2021"]
+#[part1=7]
+#[part2=5]
+struct Day1 {
     pub depths: Vec<i32>,
 }
 
 const VER_ZOOM: f32 = 0.1;
 
-impl Day<i32> for Day1 {
+impl Challenge<i32> for Day1 {
     fn part1(&mut self) -> Result<i32, aoc::AocError> {
         Ok(self.depths.windows(2).filter(|win| win[0] < win[1]).count() as i32)
     }
@@ -27,10 +33,6 @@ impl Day<i32> for Day1 {
             .windows(2)
             .filter(|win| win[0] < win[1])
             .count() as i32)
-    }
-
-    fn name() -> &'static str {
-        NAME
     }
 
     fn parse_input(filename: &str) -> Result<Self, aoc::AocError> {
@@ -82,28 +84,4 @@ fn main() {
         sdl_window.present();
     }
     println!("end");
-}
-
-impl Day1 {
-    pub fn from_test_slice(depths: Vec<i32>) -> Self {
-        Self { depths }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-    #[test]
-    fn test_part1() {
-        let mut day1 =
-            Day1::from_test_slice([199, 200, 208, 210, 200, 207, 240, 269, 260, 263].to_vec());
-        assert_eq!(day1.part1().unwrap(), 7);
-    }
-
-    #[test]
-    fn test_part2() {
-        let mut day1 =
-            Day1::from_test_slice([199, 200, 208, 210, 200, 207, 240, 269, 260, 263].to_vec());
-        assert_eq!(day1.part2().unwrap(), 5);
-    }
 }

@@ -1,5 +1,5 @@
 [package]
-name = "AoC2021"
+name = "aoc_macros"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,9 +7,10 @@ edition = "2021"
 
 [dependencies]
 aoc = { path = "../aoc" }
-aoc_macros = { path = "../aoc_macros" }
+quote = "*"
+syn = "*"
 anyhow = "*"
-nalgebra = "*"
-lazy-regex = "*"
-num = "*"
-log = "*"
+
+
+[lib]
+proc-macro = true

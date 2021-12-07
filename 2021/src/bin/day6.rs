@@ -1,9 +1,14 @@
-use aoc::day::Day;
+use aoc::day::{Challenge, Day};
+use aoc_macros::Day;
 
-const NAME: &str = "day6";
 const DAYS: usize = 80;
 const DAYS2: usize = 256;
 
+#[derive(Day)]
+#[day=6]
+#[year="2021"]
+#[part1=5934]
+#[part2=26984457539]
 struct Day6 {
     fish: Vec<u8>,
 }
@@ -33,7 +38,7 @@ impl Day6 {
     }
 }
 
-impl Day<usize> for Day6 {
+impl Challenge<usize> for Day6 {
     fn part1(&mut self) -> Result<usize, aoc::AocError> {
         Ok(self.calc_number(DAYS))
     }
@@ -49,32 +54,9 @@ impl Day<usize> for Day6 {
             fish: line.split(',').map(|s| s.parse().unwrap()).collect(),
         })
     }
-
-    fn name() -> &'static str {
-        NAME
-    }
 }
 
 fn main() {
     Day6::run().unwrap();
 }
 
-#[cfg(test)]
-mod day6 {
-    use std::time::Instant;
-
-    use super::*;
-    #[test]
-    fn part1() {
-        assert_eq!(Day6::from_test().unwrap().part1().unwrap(), 5934);
-    }
-    #[test]
-    fn part2() {
-        let starttime = Instant::now();
-        assert_eq!(Day6::from_test().unwrap().part2().unwrap(), 26984457539);
-        println!(
-            "time for test: {}s",
-            (Instant::now() - starttime).as_secs_f32()
-        );
-    }
-}

@@ -2,5 +2,7 @@
 resolver = "2"
 members = [
     "aoc",
+    "aoc_macros",
     "2021",
+    "2020",
 ]

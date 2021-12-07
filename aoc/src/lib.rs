@@ -1,7 +1,14 @@
-use std::{error::Error, fmt::Display, fs::File, io::{BufRead, BufReader}, str::FromStr};
 
-pub mod sdl;
+use std::{
+    error::Error,
+    fmt::Display,
+    fs::File,
+    io::{BufRead, BufReader},
+    str::FromStr,
+};
+
 pub mod day;
+pub mod sdl;
 
 /// -------------------------------------------------------------------------------------------------
 /// ---- input parsing ------------------------------------------------------------------------------
@@ -35,7 +42,9 @@ impl AocError {
     }
 
     pub fn not_impl<T>() -> Result<T, AocError> {
-        Err(AocError { msg: "not yet implemented".to_string() })
+        Err(AocError {
+            msg: "not yet implemented".to_string(),
+        })
     }
 }
 impl Error for AocError {}
