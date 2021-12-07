@@ -3,9 +3,7 @@ use std::str::FromStr;
 use proc_macro::TokenStream;
 use quote::{quote, quote_spanned};
 use std::fmt::Display;
-use syn::{parse_macro_input, Attribute, DeriveInput, Ident, Lit, Macro, Meta, MetaNameValue};
-
-use aoc::day::Day;
+use syn::{parse_macro_input, Attribute, DeriveInput, Ident, Lit, Meta};
 
 /// -------------------------------------------------------------------------------------------------
 /// ---- proc macro ---------------------------------------------------------------------------------
@@ -14,14 +12,14 @@ use aoc::day::Day;
 #[proc_macro_derive(Day, attributes(day, year, title, part1, part2))]
 pub fn derive_day(input: TokenStream) -> TokenStream {
     let DeriveInput {
-        ident, data, attrs, ..
+        ident, attrs, ..
     } = parse_macro_input!(input);
 
     match derive_day_inner(&ident, &attrs) {
         Ok(tokenstream) => tokenstream,
-        Err(err) => {
+        Err(_err) => {
             let output = quote_spanned! {
-            ident.span() => compile_error!{format!("#[year=YEAR] error: {}", err)}};
+            ident.span() => compile_error!{format!("#[year=YEAR] error: {}", _err)}};
 
             output.into()
         }

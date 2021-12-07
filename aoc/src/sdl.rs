@@ -1,6 +1,9 @@
 use std::time::Instant;
 
-use sdl2::{ VideoSubsystem, render::Canvas, video::{GLContext, SwapInterval, Window}};
+use sdl2::{
+    render::Canvas,
+    video::{SwapInterval, Window},
+};
 
 // reexport sdl
 pub use sdl2;
@@ -9,10 +12,10 @@ const MOVE_SPEED: f32 = 500.0;
 
 pub struct SdlWindow {
     pub event_pump: sdl2::EventPump,
-    video_subsystem: VideoSubsystem,
+    //video_subsystem: VideoSubsystem,
     pub canvas: Canvas<Window>,
     redraw: bool,
-    ctx: GLContext,
+    //ctx: GLContext,
     last_fps_time: Instant,
     frames_since_last: u32,
     total_frames: u32,
@@ -37,22 +40,25 @@ impl SdlWindow {
             .build()
             .or_else(|s| Err(format!("error building SDL window: {}", s)))?;
 
-        let ctx = window.gl_create_context().unwrap();
-        video_subsystem.gl_set_swap_interval(SwapInterval::VSync).unwrap();
+        let _ctx = window.gl_create_context().unwrap();
+        video_subsystem
+            .gl_set_swap_interval(SwapInterval::VSync)
+            .unwrap();
 
-
-        let canvas = window.into_canvas().accelerated().present_vsync().build()
-                                         .or_else(|s| Err(format!("error building canvas: {}", s)))?;
-
+        let canvas = window
+            .into_canvas()
+            .accelerated()
+            .present_vsync()
+            .build()
+            .or_else(|s| Err(format!("error building canvas: {}", s)))?;
 
         let event_pump: sdl2::EventPump = sdl_context.event_pump()?;
 
-
         Ok(Self {
             event_pump,
-            video_subsystem,
+            //video_subsystem,
             canvas,
-            ctx,
+            //ctx,
             redraw: true,
             frames_since_last: 0,
             total_frames: 0,
@@ -62,21 +68,40 @@ impl SdlWindow {
     }
 
     ///
-    pub fn draw<F>(&mut self, content: F) where F: Fn(&mut Canvas<Window>, (f32, f32)) {
+    pub fn draw<F>(&mut self, content: F)
+    where
+        F: Fn(&mut Canvas<Window>, (f32, f32)),
+    {
         content(&mut self.canvas, self.offset);
     }
 
     pub fn movement(&mut self, dt: f32) {
-        if self.event_pump.keyboard_state().is_scancode_pressed(sdl2::keyboard::Scancode::W) {
+        if self
+            .event_pump
+            .keyboard_state()
+            .is_scancode_pressed(sdl2::keyboard::Scancode::W)
+        {
             self.offset.1 += MOVE_SPEED * dt;
         }
-        if self.event_pump.keyboard_state().is_scancode_pressed(sdl2::keyboard::Scancode::S) {
+        if self
+            .event_pump
+            .keyboard_state()
+            .is_scancode_pressed(sdl2::keyboard::Scancode::S)
+        {
             self.offset.1 -= MOVE_SPEED * dt;
         }
-        if self.event_pump.keyboard_state().is_scancode_pressed(sdl2::keyboard::Scancode::A) {
+        if self
+            .event_pump
+            .keyboard_state()
+            .is_scancode_pressed(sdl2::keyboard::Scancode::A)
+        {
             self.offset.0 += MOVE_SPEED * dt;
         }
-        if self.event_pump.keyboard_state().is_scancode_pressed(sdl2::keyboard::Scancode::D) {
+        if self
+            .event_pump
+            .keyboard_state()
+            .is_scancode_pressed(sdl2::keyboard::Scancode::D)
+        {
             self.offset.0 -= MOVE_SPEED * dt;
         }
     }
@@ -84,7 +109,9 @@ impl SdlWindow {
     /// swaps the buffers (makes all render commands visible).
     /// This function also keepd track of fps
     pub fn present(&mut self) {
-        if !self.redraw { return; }
+        if !self.redraw {
+            return;
+        }
         self.canvas.present();
         self.total_frames += 1;
         self.frames_since_last += 1;
