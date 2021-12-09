@@ -8,6 +8,9 @@ edition = "2021"
 [dependencies]
 anyhow = "*"
 sdl2 = "*"
+log = "*"
+lazy_static = "*"
+atomic_refcell = "*"
 
 [features]
 default = ["sdl2/bundled"]

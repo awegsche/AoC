@@ -1,18 +1,22 @@
 use aoc::{
     day::{Challenge, Day},
+    sdl::sdl2::{self, pixels::Color, rect::Rect},
     AocError,
 };
 use aoc_macros::Day;
 use lazy_regex::regex_captures;
 use log::info;
-use std::{fmt::Display, str::FromStr};
+use std::{fmt::Display, str::FromStr, time::Instant};
+
+const FIELD_SIZE: u32 = 4;
+const FIELD_DIST: i32 = 5;
 
 #[derive(Day)]
 #[day = 5]
 #[year = "2021"]
 #[part1 = 5]
 #[part2 = 12]
-struct Day5 {
+pub(crate) struct Day5 {
     vents: Vec<Vent>,
 }
 impl Challenge<i32> for Day5 {
@@ -56,6 +60,21 @@ impl Challenge<i32> for Day5 {
     }
 
     fn part2(&mut self) -> Result<i32, aoc::AocError> {
+        let (_, _, field) = self.make_fields()?;
+        info!("vents: {}", self.vents.len());
+        let count = field.iter().filter(|x| **x > 1).count() as i32;
+        Ok(count)
+    }
+
+    fn parse_input(filename: &str) -> Result<Self, aoc::AocError> {
+        Ok(Self {
+            vents: aoc::parse_lines(filename)?.collect(),
+        })
+    }
+}
+
+impl Day5 {
+    pub fn make_fields(&self) -> Result<(i32, i32, Vec<u8>), aoc::AocError> {
         // get min and max to initialize the field
         let max_x = self.vents.iter().map(|v| v.x0.max(v.x1)).max().unwrap() + 2;
         let max_y = self.vents.iter().map(|v| v.y0.max(v.y1)).max().unwrap() + 2;
@@ -103,15 +122,7 @@ impl Challenge<i32> for Day5 {
             }
         }
 
-        info!("vents: {}", self.vents.len());
-        let count = field.iter().filter(|x| **x > 1).count() as i32;
-        Ok(count)
-    }
-
-    fn parse_input(filename: &str) -> Result<Self, aoc::AocError> {
-        Ok(Self {
-            vents: aoc::parse_lines(filename)?.collect(),
-        })
+        Ok((max_x, max_y, field))
     }
 }
 
@@ -161,6 +172,80 @@ impl Display for Vent {
     }
 }
 
-fn main() {
+pub(crate) fn play() {
     Day5::run().unwrap();
+
+    let day = Day5::from_input().unwrap();
+
+    let (w, h, field) = day.make_fields().unwrap();
+    let n = (w * h) as usize;
+    let biggest_value = *field.iter().max().unwrap();
+    let mut rects_by_value: Vec<Vec<Rect>> = Vec::new();
+    let mut colors_by_value: Vec<Color> = Vec::new();
+    println!("biggest: {}", biggest_value);
+
+    for i in 1..biggest_value {
+        let c = (i as i32 * 255 / biggest_value as i32) as u8;
+        println!("push color: {}, i= {}", c, i);
+        colors_by_value.push(Color::RGB(c, c, c));
+        let mut rects = Vec::new();
+
+        for y in 0..h {
+            for x in 0..w {
+                let value = field[(y * w + x) as usize];
+                if value == i {
+                    rects.push(Rect::new(
+                        x * FIELD_DIST,
+                        y * FIELD_DIST,
+                        FIELD_SIZE,
+                        FIELD_SIZE,
+                    ));
+                }
+            }
+        }
+        rects_by_value.push(rects);
+    }
+    for c in colors_by_value.iter() {
+        println!("{:?}", c);
+    }
+    // TODO: try rendering it to a texture once and display the transformed texture to the user
+
+    let mut sdl_window = aoc::sdl::SdlWindow::new("day1", 800, 600).unwrap();
+
+    let mut starttime = Instant::now();
+    'running: loop {
+        let dt = starttime.elapsed().as_secs_f32();
+        starttime = Instant::now();
+
+        // exhaust the event pump:
+        if let Some(event) = sdl_window.event_pump.wait_event_timeout(10) {
+            match event {
+                sdl2::event::Event::Quit { .. } => break 'running,
+                _ => {}
+            };
+        }
+
+        sdl_window.movement(dt);
+
+        sdl_window.draw(|canvas, offset| {
+            canvas.set_draw_color(Color::BLACK);
+            canvas.clear();
+            canvas.set_draw_color(Color::RGB(255, 255, 255));
+            for (rect, clr) in rects_by_value.iter().zip(colors_by_value.iter()) {
+                canvas.set_draw_color(*clr);
+                canvas.draw_rects(
+                    &*rect.iter().map(|r| {
+                    Rect::new(
+                        r.x + offset.0 as i32,
+                        r.y + offset.1 as i32,
+                        FIELD_SIZE,
+                        FIELD_SIZE,
+                    )
+                }).collect::<Vec<Rect>>());
+            }
+        });
+
+        sdl_window.present();
+    }
+    println!("end");
 }

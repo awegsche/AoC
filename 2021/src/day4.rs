@@ -174,6 +174,3 @@ impl Display for Board {
         Ok(())
     }
 }
-fn main() {
-    Day4::run().unwrap();
-}

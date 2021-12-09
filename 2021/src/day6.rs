@@ -9,7 +9,7 @@ const DAYS2: usize = 256;
 #[year="2021"]
 #[part1=5934]
 #[part2=26984457539]
-struct Day6 {
+pub(crate) struct Day6 {
     fish: Vec<u8>,
 }
 
@@ -55,8 +55,3 @@ impl Challenge<usize> for Day6 {
         })
     }
 }
-
-fn main() {
-    Day6::run().unwrap();
-}
-

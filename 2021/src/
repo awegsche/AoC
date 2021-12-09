@@ -1,0 +1,38 @@
+use aoc::day::Challenge;
+use aoc_macros::Day;
+
+#[derive(Day)]
+#[day=9]
+#[part1=15]
+#[part2=15]
+struct Day9 {
+    width: i32,
+    height: i32,
+    field: Vec<u8>
+}
+
+impl Challenge<i32> for Day9 {
+    fn part1(&mut self) -> Result<i32, aoc::AocError> {
+        todo!()
+    }
+
+    fn part2(&mut self) -> Result<i32, aoc::AocError> {
+        todo!()
+    }
+
+    fn parse_input(filename: &str) -> Result<Self, aoc::AocError> {
+        let mut lines = aoc::lines(filename)?;
+
+        let first_line = lines.next().unwrap();
+
+        let field = first_line.chars().map(|x| x.to_digit(10).unwrap() as u8).collect();
+
+        let width = field.len();
+
+        
+    }
+}
+
+fn main() {
+    Day9::run().unwrap();
+}

@@ -1,8 +1,12 @@
-use aoc::day::Day;
+use aoc::day::{Challenge, Day};
+use aoc_macros::Day;
 use std::{fmt::Display, str::FromStr};
 
-const NAME: &str = "day3";
-
+#[derive(Day)]
+#[day=3]
+#[year="2021"]
+#[part1=198]
+#[part2=230]
 pub struct Day3 {
     pub codes: Vec<ByteCode>,
     pub len: u8,
@@ -38,12 +42,12 @@ impl Display for ByteCode {
     }
 }
 
-impl Day<i32> for Day3 {
+impl Challenge<i32> for Day3 {
     fn part1(&mut self) -> Result<i32, aoc::AocError> {
         let mut epsilon = 0;
         let mut gamma = 0;
         let number = (self.codes.len() / 2) as u32;
-        println!("number: {}", number);
+        //println!("number: {}", number);
         for index in 0..self.len {
             let count: u32 = self.codes.iter().map(|b| b.data >> index & 1).sum();
             if count >= number {
@@ -53,7 +57,7 @@ impl Day<i32> for Day3 {
             }
         }
 
-        println!("epsilon: {:#b}\ngamma: {:#b}", epsilon, gamma);
+        //println!("epsilon: {:#b}\ngamma: {:#b}", epsilon, gamma);
         Ok(epsilon * gamma)
     }
 
@@ -122,55 +126,5 @@ impl Day<i32> for Day3 {
         let codes: Vec<ByteCode> = aoc::parse_lines(filename)?.collect();
         let len = codes.first().unwrap().len;
         Ok(Self { codes, len })
-    }
-
-    fn name() -> &'static str {
-        NAME
-    }
-}
-
-fn main() {
-    Day3::run().unwrap();
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn part1() {
-        assert_eq!(
-            Day3 {
-                codes: [
-                    "00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100",
-                    "10000", "11001", "00010", "01010",
-                ]
-                .iter()
-                .map(|s| s.parse().unwrap())
-                .collect(),
-                len: 5
-            }
-            .part1()
-            .unwrap(),
-            198
-        )
-    }
-
-    #[test]
-    fn part2() {
-        assert_eq!(
-            Day3 {
-                codes: [
-                    "00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100",
-                    "10000", "11001", "00010", "01010",
-                ]
-                .iter()
-                .map(|s| s.parse().unwrap())
-                .collect(),
-                len: 5
-            }
-            .part2()
-            .unwrap(),
-            230
-        )
     }
 }

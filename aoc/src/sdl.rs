@@ -116,9 +116,9 @@ impl SdlWindow {
         self.total_frames += 1;
         self.frames_since_last += 1;
         let dt = self.last_fps_time.elapsed().as_secs_f32();
-        if dt > 0.1 {
+        if dt > 0.5 {
             let fps = self.frames_since_last as f32 / dt;
-            //println!("fps: {:.2}", fps);
+            println!("fps: {:.2}", fps);
             self.last_fps_time = Instant::now();
             self.frames_since_last = 0;
         }

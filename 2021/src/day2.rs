@@ -1,9 +1,14 @@
-use aoc::{day::Day, sdl::sdl2::rect::Point};
+use aoc::{day::{Challenge, Day}, sdl::sdl2::rect::Point};
+use aoc_macros::Day;
+use log::info;
 use std::{fmt::Display, iter::Sum, ops::Add, str::FromStr};
 use nalgebra::Vector2;
 
-const NAME: &str = "day2";
-
+#[derive(Day)]
+#[day=2]
+#[year="2021"]
+#[part1=150]
+#[part2=900]
 pub struct Day2 {
     pub moves: Vec<Movement>,
 }
@@ -41,7 +46,7 @@ impl Display for Movement {
     }
 }
 
-impl Day<i32> for Day2 {
+impl Challenge<i32> for Day2 {
     fn part1(&mut self) -> Result<i32, aoc::AocError> {
         Ok(self
             .moves
@@ -69,7 +74,7 @@ impl Day<i32> for Day2 {
             }
         }
 
-        println!("position: {}", position);
+        info!("position: {}", position);
 
         Ok(position.answer())
     }
@@ -80,13 +85,6 @@ impl Day<i32> for Day2 {
         })
     }
 
-    fn name() -> &'static str {
-        NAME
-    }
-}
-
-fn main() {
-    Day2::run().unwrap();
 }
 
 #[cfg(test)]

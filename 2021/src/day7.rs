@@ -4,9 +4,10 @@ use aoc_macros::Day;
 #[derive(Day)]
 #[day = 7]
 #[year = "2021"]
+#[title = "The Treachery of Whales"]
 #[part1 = 37]
 #[part2 = 168]
-struct Day7 {
+pub(crate) struct Day7 {
     positions: Vec<i32>,
 }
 
@@ -51,8 +52,4 @@ impl Challenge<i32> for Day7 {
                 .collect(),
         })
     }
-}
-
-fn main() {
-    Day7::run().unwrap();
 }
