@@ -1,6 +1,6 @@
 */target
 target
 Cargo.lock
-*/.vs
+.vs
 */out
 */*build*
