@@ -50,6 +50,7 @@ pub trait Challenge<T: Display>: Sized + Day {
         println!("|                                        .         |");
         let logs1 = logger::extract_logs();
 
+        let mut aoc = Self::from_input()?;
         let starttime = Instant::now();
         let part2_res = match aoc.part2() {
             Ok(res) => format!("{}{:<32}\x1b[0m", STAR_COLOR, res),

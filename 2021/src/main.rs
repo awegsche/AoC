@@ -9,9 +9,10 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+mod day10;
+mod day11;
 
 fn main() {
-
     aoc::logger::init();
 
     day9::play();
@@ -25,4 +26,6 @@ fn main() {
     day7::Day7::run().unwrap();
     day8::Day8::run().unwrap();
     day9::Day9::run().unwrap();
+    day10::Day10::run().unwrap();
+    day11::Day11::run().unwrap();
 }
