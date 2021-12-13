@@ -23,3 +23,7 @@ My solutions for 2021's Advent of Code
 [Day 10](src/bin/day10.rs): <img align=center src="..\\media\\aoc_part2.png#gh-dark-mode-only" height="28" ><img align=center src="..\\media\\aoc_part2_inv.png#gh-light-mode-only" height="28" >
 
 [Day 11](src/bin/day11.rs): <img align=center src="..\\media\\aoc_part2.png#gh-dark-mode-only" height="28" ><img align=center src="..\\media\\aoc_part2_inv.png#gh-light-mode-only" height="28" >
+
+[Day 12](src/bin/day12.rs): <img align=center src="..\\media\\aoc_part2.png#gh-dark-mode-only" height="28" ><img align=center src="..\\media\\aoc_part2_inv.png#gh-light-mode-only" height="28" > (with a little help from the internet)
+
+[Day 13](src/bin/day13.rs): <img align=center src="..\\media\\aoc_part2.png#gh-dark-mode-only" height="28" ><img align=center src="..\\media\\aoc_part2_inv.png#gh-light-mode-only" height="28" >
