@@ -30,15 +30,17 @@ pub trait Challenge<T: Display>: Sized + Day {
     }
 
     fn run() -> Result<(), AocError> {
+        let starttime = Instant::now();
         let mut aoc = Self::from_input()?;
-        println!("+--------------------------------------------------+");
+        let elapsed_loading = Instant::now() - starttime;
+        println!("+-------------------------------------------------------------+");
         println!(
-            "| Running \x1b[1mDay{:2} {}{:<35}\x1b[0m|",
+            "| Running \x1b[1mDay{:2} {}{:<46}\x1b[0m|",
             Self::day(),
             TITLE_COLOR,
             Self::title(),
         );
-        println!("|----------------------------------------+---------|");
+        println!("|----------------------------------------+----------+---------|");
 
         let starttime = Instant::now();
         let part1_res = match aoc.part1() {
@@ -46,8 +48,13 @@ pub trait Challenge<T: Display>: Sized + Day {
             Err(err) => format!("{}{:<32}\x1b[0m", ERROR_COLOR, err),
         };
         let elapsed = Instant::now() - starttime;
-        println!("| part1: {}. {}|", part1_res, print_time(elapsed));
-        println!("|                                        .         |");
+        println!(
+            "| part1: {}: {} : {}|",
+            part1_res,
+            print_time(elapsed_loading),
+            print_time(elapsed)
+        );
+        println!("|                                        :          :         |");
         let logs1 = logger::extract_logs();
 
         let mut aoc = Self::from_input()?;
@@ -57,16 +64,21 @@ pub trait Challenge<T: Display>: Sized + Day {
             Err(err) => format!("{}{:<32}\x1b[0m", ERROR_COLOR, err),
         };
         let elapsed = Instant::now() - starttime;
-        println!("| part2: {}. {}|", part2_res, print_time(elapsed));
+        println!(
+            "| part2: {}: {} : {}|",
+            part2_res,
+            print_time(elapsed_loading),
+            print_time(elapsed)
+        );
         let logs2 = logger::extract_logs();
 
         print_logs_part(&logs1, 1);
         print_logs_part(&logs2, 2);
 
         if logs2.len() + logs1.len() > 0 {
-            println!("+--------------------------------------------------+");
+            println!("+-------------------------------------------------------------+");
         } else {
-            println!("+----------------------------------------+---------+");
+            println!("+----------------------------------------+----------+---------+");
         }
         println!("");
 
@@ -74,19 +86,18 @@ pub trait Challenge<T: Display>: Sized + Day {
     }
 }
 
-fn print_logs_part(logs: &[String], part: u8) {
+pub fn print_logs_part(logs: &[String], part: u8) {
     if logs.len() > 0 {
-        println!("|..................................................|");
+        println!("|.............................................................|");
         println!(
-            "| {}LOG Part {}\x1b[0m                                       |",
-            LOG_COLOR,
-            part
+            "| {}LOG Part {}\x1b[0m                                                  |",
+            LOG_COLOR, part
         );
         for log in logs.iter() {
-            if log.len() > 49 {
-                println!("| {} ...|", &log[..45]);
+            if log.len() > 60 {
+                println!("| {} ...|", &log[..56]);
             } else {
-                println!("| {:<49}|", log);
+                println!("| {:<60}|", log);
             }
         }
     }
@@ -124,7 +135,7 @@ fn print_time(dt: Duration) -> String {
     let dt_s = dt.as_secs_f64();
 
     if dt_s > 1.0 {
-        format!("{:6.1}\x1b[38;2;128;128;128ms\x1b[0m", dt_s)
+        format!("{:6.1}\x1b[38;2;128;128;128ms \x1b[0m", dt_s)
     } else if dt_s > 1.0e-3 {
         format!("{:6.1}\x1b[38;2;128;128;128mms\x1b[0m", dt_s * 1.0e3)
     } else {
