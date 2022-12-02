@@ -7,6 +7,8 @@ my solutions for [Advent of Code](https://adventofcode.com/)
 
 ## Usage
 
+### Rust
+
 The subprojects `aoc` and `aoc_macros` define two traits `Day` and `Challenge<T>` together with a derive macro for `Day`.
 The derive macro automatically creates tests and some basic implementation for the struct.
 
@@ -41,3 +43,6 @@ impl Challenge<i32> for Day1 {
   }
 }
 ```
+
+### C++
+
