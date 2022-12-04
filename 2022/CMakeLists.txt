@@ -5,7 +5,10 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(../aoc-cpp)
 
-add_executable(2022 main.cpp)
+add_executable(2022
+        day3.h
+        main.cpp
+        )
 
 target_link_libraries( 2022
         aoc_cpp)
