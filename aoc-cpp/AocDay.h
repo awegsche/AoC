@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <filesystem>
 
@@ -16,7 +17,15 @@ template<typename Day, typename Tvalue>
 class AocDay {
 public:
 
+    // ---- public interface -----------------------------------------------------------------------
+
+    virtual auto part1() const -> Tvalue = 0;
+
+    virtual auto part2() const -> Tvalue = 0;
+
     using value = Tvalue;
+
+    // ---- public utilities -----------------------------------------------------------------------
 
     /// Loads the `AocDay`'s content from a file
     ///
@@ -40,7 +49,7 @@ public:
     /// \param part1
     /// \param part2
     /// \return
-    static auto test(Tvalue part1, Tvalue part2) -> bool {
+    static auto test(Tvalue correct1, Tvalue correct2) -> bool {
 
         auto day = from_file(std::filesystem::path("../..")
                              / Day::YEAR
@@ -48,21 +57,7 @@ public:
 
         if (!day) return false;
 
-        auto ans1 = day->part1();
-
-        cout << "Part 1 = " << ans1;
-        if (ans1 == part1)
-            cout << " [OK] " << endl;
-        else
-            cout << " [X ] " << endl;
-
-        auto ans2 = day->part2();
-
-        cout << "Part 2 = " << ans2;
-        if (ans2 == part2)
-            cout << " [OK] " << endl;
-        else
-            cout << " [X ] " << endl;
+        check(*day, correct1, correct2);
 
         return true;
     }
@@ -82,9 +77,37 @@ public:
         return true;
     }
 
-    virtual auto part1() -> Tvalue = 0;
+    static auto manual_test(std::string const& input, Tvalue correct1, Tvalue correct2) {
+        std::stringstream stream{input};
 
-    virtual auto part2() -> Tvalue = 0;
+        Day day = Day::from_istream(stream);
+
+        if (day) {
+            check(*day, correct1, correct2);
+        }
+        else {
+            cerr << "couldn't create Day from string \"" << input << "\"" << endl;
+        }
+    }
+
+private:
+    static auto check(Day const& day, Tvalue correct1, Tvalue correct2){
+        auto ans1 = day.part1();
+
+        cout << "Part 1 = " << ans1;
+        if (ans1 == correct1)
+            cout << " [OK] " << endl;
+        else
+            cout << " [X ] " << endl;
+
+        auto ans2 = day.part2();
+
+        cout << "Part 2 = " << ans2;
+        if (ans2 == correct2)
+            cout << " [OK] " << endl;
+        else
+            cout << " [X ] " << endl;
+    }
 
 };
 

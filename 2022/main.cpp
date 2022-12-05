@@ -28,8 +28,13 @@ int main() {
     cout << endl;
 
     cout << "Day 4" << endl;
-    Day4::test(2,4);
+    Day4::test(2, 4);
     Day4::run();
+    cout << endl;
+
+    cout << "Day 5" << endl;
+    Day5::test("CMZ", "MCD");
+    Day5::run();
     cout << endl;
     return 0;
 }

@@ -1,3 +1,6 @@
 [submodule "2021/cuda/ext/dear_spdlog"]
 	path = 2021/cuda/ext/dear_spdlog
 	url = git@github.com:awegsche/dear_spdlog.git
+[submodule "ext/re2"]
+	path = ext/re2
+	url = git@github.com:google/re2.git

@@ -76,13 +76,13 @@ public:
         return true;
     }
 
-    auto part1() -> value override {
+    auto part1() const -> value override {
         return std::ranges::max(
                 m_elves
                 | std::views::transform([](Calories const& c) { return c.sum(); }));
     }
 
-    auto part2() -> value override {
+    auto part2() const -> value override {
         std::vector<int> sum_of_calories;
 
         std::transform(m_elves.cbegin(), m_elves.cend(),

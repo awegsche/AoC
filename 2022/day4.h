@@ -65,7 +65,7 @@ public:
         }
     }
 
-    auto part1() -> value override {
+    auto part1() const -> value override {
         int count = 0;
         for (auto const& pair: pairs) {
             if (pair.has_containing_pair())
@@ -75,7 +75,7 @@ public:
         return count;
     }
 
-    auto part2() -> value override{
+    auto part2() const -> value override{
         int count = 0;
         for (auto const& pair: pairs) {
             if (pair.has_overlapping_pair())

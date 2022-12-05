@@ -38,7 +38,7 @@ public:
         return true;
     }
 
-    auto part1() -> value override {
+    auto part1() const -> value override {
         auto score = [] (Game const& game) {
 
             switch (game.me) {
@@ -88,7 +88,7 @@ public:
         return answer;
     }
 
-    auto part2() -> value override {
+    auto part2() const -> value override {
         auto score = [] (Game const& game) {
 
             switch (game.me) {

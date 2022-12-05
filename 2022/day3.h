@@ -72,7 +72,7 @@ public:
         return true;
     }
 
-    auto part1() -> value override {
+    auto part1() const -> value override {
         int sum = 0;
         for(auto const& rucksack: rucksacks) {
             sum += static_cast<int>(rucksack.same());
@@ -80,7 +80,7 @@ public:
         return sum;
     }
 
-    auto part2() -> value override {
+    auto part2() const -> value override {
         int answer = 0;
 
         for (int i = 0; i < rucksacks.size()/3; ++i) {
