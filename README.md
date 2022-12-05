@@ -4,7 +4,7 @@ my solutions for [Advent of Code](https://adventofcode.com/)
 ## Events
 
 - [2021](2021) [25<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
-- [2022](2022) [8<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
+- [2022](2022) [10<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
 
 ## Usage
 
@@ -47,3 +47,40 @@ impl Challenge<i32> for Day1 {
 
 ### C++
 
+Also the C++ code has some convenience classes.
+To practice composition over inheritance (TODO: link), I added two base classes that pull
+some functionality via CRTP:
+ - `AocObject<T>`: contains creation facilities (loading from file, creating from string)
+for arbitrary objects.
+ - `AocDay<Day, Tvalue>`: contains lots of convenience functions for running tests and the
+actual solving of the puzzle.
+
+**Note**: *This is still in an early stage and might change*.
+
+An example implementation looks like this:
+```c++
+class Day5: public AocObject<Day5>, public AocDay<Day5, std::string> {
+    // private members
+
+public:
+    // static values for printing and to find the input file
+    static constexpr char TITLE[] = "Supply Stacks";
+    static constexpr char FILENAME[] = "5";
+    static constexpr char YEAR[] = "2022";
+
+    static auto get_object(std::istream& stream, Day5& day) -> bool {
+        // load new object from `stream` and copy it into `day`
+        return true;
+    }
+
+    auto part1() const -> value override {
+        // solve first part
+        return "answer of part 1";
+    }
+
+    auto part2() const -> value override {
+        // solve second part
+        return "answer of part 2";
+    }
+};
+```
