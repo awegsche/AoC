@@ -14,30 +14,31 @@
 #include <numeric>
 #include <algorithm>
 
+#include <aoc_object.h>
+#include <AocDay.h>
+
 struct Game{
     char opponent;
     char me;
 };
 
-class Day2 {
+class Day2: public AocObject<Day2>, public AocDay<Day2, int> {
     std::vector<Game> games;
 
 public:
     static constexpr char FILENAME[] = "2";
-    using value = int;
+    static constexpr char YEAR[] = "2022";
 
-    static auto from_istream(std::istream& stream) -> std::optional<Day2> {
+    static auto get_object(std::istream& stream, Day2& day) -> bool {
         std::string line{};
 
-        Day2 day;
         while (std::getline(stream, line)) {
-
             day.games.push_back({line[0], line[2]});
         }
-        return day;
+        return true;
     }
 
-    auto part1() -> value {
+    auto part1() -> value override {
         auto score = [] (Game const& game) {
 
             switch (game.me) {
@@ -87,7 +88,7 @@ public:
         return answer;
     }
 
-    auto part2() -> value {
+    auto part2() -> value override {
         auto score = [] (Game const& game) {
 
             switch (game.me) {

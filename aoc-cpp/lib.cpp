@@ -4,3 +4,4 @@
 
 #include "aoc_object.h"
 #include "aoclines.h"
+#include "AocDay.h"

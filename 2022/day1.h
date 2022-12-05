@@ -9,9 +9,12 @@
 #include <algorithm>
 #include <iostream>
 #include <ranges>
+#include <numeric>
 
 #include <aoclines.h>
-#include <numeric>
+#include <aoc_object.h>
+#include <AocDay.h>
+
 
 using std::cerr, std::cout, std::endl;
 
@@ -50,37 +53,36 @@ public:
     }
 };
 
-class Day1 {
+class Day1: public AocObject<Day1>, public AocDay<Day1, int> {
     std::vector<Calories> m_elves;
 
 public:
-    using value = int;
     static constexpr char FILENAME[] = "1";
+    static constexpr char YEAR[] = "2022";
 
 
 public:
-    static auto from_istream(std::istream& stream) -> std::optional<Day1> {
-        Day1 day{};
+    static auto get_object(std::istream& stream, Day1& day) -> bool {
 
         do {
             auto elf = Calories::from_istream(stream);
             if (!elf)
-                return {};
+                return false;
             if (elf->empty()) break;
 
             day.m_elves.push_back(*elf);
         } while(true);
 
-        return day;
+        return true;
     }
 
-    auto part1() const -> value {
+    auto part1() -> value override {
         return std::ranges::max(
                 m_elves
                 | std::views::transform([](Calories const& c) { return c.sum(); }));
     }
 
-    auto part2() -> value {
+    auto part2() -> value override {
         std::vector<int> sum_of_calories;
 
         std::transform(m_elves.cbegin(), m_elves.cend(),
@@ -91,7 +93,6 @@ public:
 
         return sum_of_calories[0] + sum_of_calories[1] + sum_of_calories[2];
     }
-
 };
 
 #endif //AOC_DAY1_H

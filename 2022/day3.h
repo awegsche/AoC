@@ -11,6 +11,7 @@
 #include <bitset>
 
 #include <aoc_object.h>
+#include <AocDay.h>
 
 
  uint8_t number_from_char(char c) {
@@ -54,12 +55,12 @@ public:
     }
 };
 
-class Day3: public AocObject<Day3>{
+class Day3: public AocObject<Day3>, public AocDay<Day3, int> {
     std::vector<Rucksack> rucksacks;
 
 public:
-    using value = int;
     static constexpr char FILENAME[] = "3";
+    static constexpr char YEAR[] = "2022";
 
 public:
     static auto get_object(std::istream& stream, Day3& day) -> bool {
@@ -71,7 +72,7 @@ public:
         return true;
     }
 
-    auto part1() -> value {
+    auto part1() -> value override {
         int sum = 0;
         for(auto const& rucksack: rucksacks) {
             sum += static_cast<int>(rucksack.same());
@@ -79,7 +80,7 @@ public:
         return sum;
     }
 
-    auto part2() -> value {
+    auto part2() -> value override {
         int answer = 0;
 
         for (int i = 0; i < rucksacks.size()/3; ++i) {

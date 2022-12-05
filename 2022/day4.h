@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "aoc_object.h"
+#include "AocDay.h"
 
 struct Section {
     int min;
@@ -38,11 +39,11 @@ struct Pair {
     }
 };
 
-class Day4: public AocObject<Day4> {
+class Day4: public AocObject<Day4>, public AocDay<Day4, int> {
     std::vector<Pair> pairs;
 public:
     constexpr static char FILENAME[] = "4";
-    using value = int;
+    constexpr static char YEAR[] = "2022";
 
 
     static auto get_object(std::istream& stream, Day4& day) -> bool {
@@ -64,7 +65,7 @@ public:
         }
     }
 
-    auto part1() -> value {
+    auto part1() -> value override {
         int count = 0;
         for (auto const& pair: pairs) {
             if (pair.has_containing_pair())
@@ -74,7 +75,7 @@ public:
         return count;
     }
 
-    auto part2() -> value {
+    auto part2() -> value override{
         int count = 0;
         for (auto const& pair: pairs) {
             if (pair.has_overlapping_pair())
