@@ -6,12 +6,42 @@
 #define AOC_AOCDAY_H
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <filesystem>
 
-using std::cout, std::cerr, std::endl;
+using std::cout, std::cerr, std::endl, std::setw, std::setfill, std::left, std::right;
+
+constexpr char OK[] = "[ \33[38;2;50;255;50mOK\33[0m ]";
+constexpr char FAIL[] = "[\33[38;2;255;50;50mFAIL\33[0m]";
+constexpr char STAR_COLOR[] = "\33[1m\33[38;2;255;255;100m";
+constexpr char TITLE_COLOR[] = "\33[1m\33[38;2;100;185;255m";
+constexpr char RESET[] = "\33[0m";
+constexpr int COL1 = 10;
+constexpr int COL2 = 20;
+constexpr int COL3 = 10;
+
+template<typename Tvalue>
+struct AocResult {
+    Tvalue part1;
+    Tvalue part2;
+};
+
+struct AocCheck {
+    bool part1;
+    bool part2;
+
+    explicit operator bool() const { return part1 && part2; }
+};
+
+std::ostream& operator<<(std::ostream& os, AocCheck const & ch) {
+    return os
+            << "Part 1: " << (ch.part1 ? OK : FAIL) << endl
+            << "Part 2: " << (ch.part2 ? OK : FAIL) << endl;
+}
+
 
 template<typename Day, typename Tvalue>
 class AocDay {
@@ -55,10 +85,14 @@ public:
                              / Day::YEAR
                              / (std::string("inputs/day") + Day::FILENAME + "_test_input.txt"));
 
-        if (!day) return false;
+        cout << ":: Test Day " << Day::FILENAME << endl;
 
-        check(*day, correct1, correct2);
+        if (!day) {
+            cerr << " couldn't load test input" << endl;
+            return false;
+        }
 
+        cout << day->check(correct1, correct2) << endl;
         return true;
     }
 
@@ -71,9 +105,38 @@ public:
                              / (std::string("inputs/day") + Day::FILENAME + "_input.txt"));
         if (!day) return false;
 
-        cout << "Part 1 = " << day->part1() << endl;
-        cout << "Part 2 = " << day->part2() << endl;
+        cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
 
+        cout << "| DAY " << setfill(' ')
+             << "\33[1m"
+             << setw(2) << left << Day::FILENAME << " "
+             << TITLE_COLOR
+             << setw(COL1 + COL2 + COL3 - 7) << left << Day::TITLE
+             << RESET
+             << "|" << endl;
+
+        cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
+
+        cout << "|" << setfill(' ')
+             << setw(COL1) << left << " Part 1: "
+             << STAR_COLOR
+             << setw(COL2) << left << day->part1()
+             << RESET
+             << "."
+             << setw(COL3) << right << " "
+             << "|" << endl;
+
+        cout << "|" << setfill(' ')
+             << setw(COL1) << left << " Part 2: "
+             << STAR_COLOR
+             << setw(COL2) << left << day->part2()
+             << RESET
+             << "."
+             << setw(COL3) << right << " "
+             << "|" << endl;
+
+        cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
+        cout << endl;
         return true;
     }
 
@@ -83,7 +146,7 @@ public:
         Day day = Day::from_istream(stream);
 
         if (day) {
-            check(*day, correct1, correct2);
+            cout << day->check(correct1, correct2) << endl;
         }
         else {
             cerr << "couldn't create Day from string \"" << input << "\"" << endl;
@@ -91,24 +154,14 @@ public:
     }
 
 private:
-    static auto check(Day const& day, Tvalue correct1, Tvalue correct2){
-        auto ans1 = day.part1();
-
-        cout << "Part 1 = " << ans1;
-        if (ans1 == correct1)
-            cout << " [OK] " << endl;
-        else
-            cout << " [X ] " << endl;
-
-        auto ans2 = day.part2();
-
-        cout << "Part 2 = " << ans2;
-        if (ans2 == correct2)
-            cout << " [OK] " << endl;
-        else
-            cout << " [X ] " << endl;
+    auto both_parts() const -> AocResult<Tvalue> {
+        return {part1(), part2()};
     }
 
+    auto check(Tvalue correct1, Tvalue correct2) -> AocCheck {
+        auto result = both_parts();
+        return { result.part1 == correct1, result.part2 == correct2 };
+    }
 };
 
 

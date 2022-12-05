@@ -26,6 +26,7 @@ class Day2: public AocObject<Day2>, public AocDay<Day2, int> {
     std::vector<Game> games;
 
 public:
+    static constexpr char TITLE[] = "Rock Paper Scissors";
     static constexpr char FILENAME[] = "2";
     static constexpr char YEAR[] = "2022";
 

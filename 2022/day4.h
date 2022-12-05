@@ -42,6 +42,7 @@ struct Pair {
 class Day4: public AocObject<Day4>, public AocDay<Day4, int> {
     std::vector<Pair> pairs;
 public:
+    static constexpr char TITLE[] = "Camp Cleanup";
     constexpr static char FILENAME[] = "4";
     constexpr static char YEAR[] = "2022";
 

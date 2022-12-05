@@ -57,6 +57,7 @@ class Day1: public AocObject<Day1>, public AocDay<Day1, int> {
     std::vector<Calories> m_elves;
 
 public:
+    static constexpr char TITLE[] = "Calorie Counting";
     static constexpr char FILENAME[] = "1";
     static constexpr char YEAR[] = "2022";
 

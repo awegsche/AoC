@@ -59,6 +59,7 @@ class Day3: public AocObject<Day3>, public AocDay<Day3, int> {
     std::vector<Rucksack> rucksacks;
 
 public:
+    static constexpr char TITLE[] = "Reorganisation";
     static constexpr char FILENAME[] = "3";
     static constexpr char YEAR[] = "2022";
 

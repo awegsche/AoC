@@ -25,6 +25,7 @@ class Day5: public AocObject<Day5>, public AocDay<Day5, std::string> {
 
 
 public:
+    static constexpr char TITLE[] = "Supply Stacks";
     static constexpr char FILENAME[] = "5";
     static constexpr char YEAR[] = "2022";
 
