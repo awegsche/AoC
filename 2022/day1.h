@@ -11,9 +11,11 @@
 #include <ranges>
 #include <numeric>
 
-#include <aoclines.h>
-#include <aoc_object.h>
+#include <AocLines.h>
+#include <AocObject.h>
 #include <AocDay.h>
+
+using aoc::AocDay, aoc::AocObject;
 
 class Day1: public AocObject<Day1>, public AocDay<Day1, int> {
     std::vector<std::vector<int>> m_elves;
