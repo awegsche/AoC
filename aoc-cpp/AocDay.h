@@ -29,17 +29,27 @@ struct AocResult {
     Tvalue part2;
 };
 
+template<typename Tvalue>
 struct AocCheck {
-    bool part1;
-    bool part2;
+    Tvalue part1;
+    Tvalue part2;
+    Tvalue correct1;
+    Tvalue correct2;
 
     explicit operator bool() const { return part1 && part2; }
 };
 
-std::ostream& operator<<(std::ostream& os, AocCheck const & ch) {
+template<typename Tvalue>
+std::ostream& operator<<(std::ostream& os, AocCheck<Tvalue> const & ch) {
     return os
-            << "Part 1: " << (ch.part1 ? OK : FAIL) << endl
-            << "Part 2: " << (ch.part2 ? OK : FAIL) << endl;
+            << "Part 1: "
+            << (ch.part1 == ch.correct1 ? OK : FAIL)
+            << "   " << ch.part1 << " / " << ch.correct1
+            << endl
+            << "Part 2: "
+            << (ch.part2 == ch.correct2 ? OK : FAIL)
+            << "   " << ch.part2 << " / " << ch.correct2 << ""
+            << endl;
 }
 
 
@@ -141,9 +151,10 @@ public:
     }
 
     static auto manual_test(std::string const& input, Tvalue correct1, Tvalue correct2) {
+        cout << "Day " << Day::FILENAME << "\33[1m manual test\33[0m" << endl;
         std::stringstream stream{input};
 
-        Day day = Day::from_istream(stream);
+        auto day = Day::from_istream(stream);
 
         if (day) {
             cout << day->check(correct1, correct2) << endl;
@@ -158,9 +169,9 @@ private:
         return {part1(), part2()};
     }
 
-    auto check(Tvalue correct1, Tvalue correct2) -> AocCheck {
+    auto check(Tvalue correct1, Tvalue correct2) -> AocCheck<Tvalue> {
         auto result = both_parts();
-        return { result.part1 == correct1, result.part2 == correct2 };
+        return { result.part1, result.part2, correct1, correct2 };
     }
 };
 
