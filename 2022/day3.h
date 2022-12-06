@@ -6,13 +6,15 @@
 #include <iostream>
 #include <optional>
 #include <string>
-#include <aoclines.h>
+#include <AocLines.h>
 #include <limits>
 #include <bitset>
 
-#include <aoc_object.h>
+#include <AocObject.h>
 #include <AocDay.h>
 
+
+using aoc::AocDay, aoc::AocObject;
 
  uint8_t number_from_char(char c) {
     if (c >= 'a') return c - 'a' + 1;

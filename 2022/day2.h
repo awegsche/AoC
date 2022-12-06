@@ -5,7 +5,7 @@
 #ifndef AOC_DAY2_H
 #define AOC_DAY2_H
 
-#include "aoclines.h"
+#include "AocLines.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -14,8 +14,10 @@
 #include <numeric>
 #include <algorithm>
 
-#include <aoc_object.h>
+#include <AocObject.h>
 #include <AocDay.h>
+
+using aoc::AocDay, aoc::AocObject;
 
 struct Game{
     char opponent;

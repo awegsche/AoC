@@ -9,8 +9,10 @@
 #include <string>
 #include <vector>
 
-#include <aoc_object.h>
+#include <AocObject.h>
 #include <AocDay.h>
+
+using aoc::AocDay, aoc::AocObject;
 
 constexpr int PACKET_LEN = 4;
 constexpr int MESSAGE_LEN = 14;

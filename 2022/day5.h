@@ -10,8 +10,10 @@
 #include <iostream>
 #include <re2.h>
 
-#include <aoc_object.h>
+#include <AocObject.h>
 #include <AocDay.h>
+
+using aoc::AocDay, aoc::AocObject;
 
 struct Command {
     int amount;
