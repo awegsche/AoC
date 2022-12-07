@@ -12,18 +12,13 @@
 #include <string>
 #include <filesystem>
 
+#include "pretty.h"
+#include "timing.h"
+
 using std::cout, std::cerr, std::endl, std::setw, std::setfill, std::left, std::right;
 
 namespace aoc {
 
-    constexpr char OK[] = "[ \33[38;2;50;255;50mOK\33[0m ]";
-    constexpr char FAIL[] = "[\33[38;2;255;50;50mFAIL\33[0m]";
-    constexpr char STAR_COLOR[] = "\33[1m\33[38;2;255;255;100m";
-    constexpr char TITLE_COLOR[] = "\33[1m\33[38;2;100;185;255m";
-    constexpr char RESET[] = "\33[0m";
-    constexpr int COL1 = 10;
-    constexpr int COL2 = 20;
-    constexpr int COL3 = 10;
 
     template<typename Tvalue>
     struct AocResult {
@@ -93,7 +88,7 @@ namespace aoc {
         /// \return
         static auto test(Tvalue correct1, Tvalue correct2) -> bool {
 
-            auto day = from_file(std::filesystem::path("../..")
+            auto day = from_file(std::filesystem::path(SOURCE_DIR)
                                  / Day::YEAR
                                  / (std::string("inputs/day") + Day::FILENAME + "_test_input.txt"));
 
@@ -112,10 +107,22 @@ namespace aoc {
         /// printing out the solution.
         /// \return
         static auto run() -> bool {
-            auto day = from_file(std::filesystem::path("../..")
+            using std::chrono::steady_clock;
+
+            auto start = steady_clock::now();
+            auto day = from_file(std::filesystem::path(SOURCE_DIR)
                                  / Day::YEAR
                                  / (std::string("inputs/day") + Day::FILENAME + "_input.txt"));
+            auto time_setup = steady_clock::now() - start;
             if (!day) return false;
+
+            start = steady_clock::now();
+            auto answer1 = day->part1();
+            auto time1 = steady_clock::now() - start;
+
+            start = steady_clock::now();
+            auto answer2 = day->part2();
+            auto time2 = steady_clock::now() - start;
 
             cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
 
@@ -130,22 +137,34 @@ namespace aoc {
             cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
 
             cout << "|" << setfill(' ')
+                 << setw(COL1) << left << " Setup : "
+                 << STAR_COLOR
+                 << setw(COL2) << " "
+                 << RESET
+                 << ":";
+            print_time(time_setup);
+            cout << "|" << endl;
+
+            cout << "|" << setfill('.') << setw(COL1 + COL2 + COL3 + 1) << "." << "|" << endl;
+            cout << "|" << setfill(' ') << setw(COL1 + COL2 + COL3 + 1) << " " << "|" << endl;
+
+            cout << "|" << setfill(' ')
                  << setw(COL1) << left << " Part 1: "
                  << STAR_COLOR
-                 << setw(COL2) << left << day->part1()
+                 << setw(COL2) << left << answer1
                  << RESET
-                 << "."
-                 << setw(COL3) << right << " "
-                 << "|" << endl;
+                 << ":";
+            print_time(time1);
+            cout << "|" << endl;
 
             cout << "|" << setfill(' ')
                  << setw(COL1) << left << " Part 2: "
                  << STAR_COLOR
-                 << setw(COL2) << left << day->part2()
+                 << setw(COL2) << left << answer2
                  << RESET
-                 << "."
-                 << setw(COL3) << right << " "
-                 << "|" << endl;
+                 << ":";
+            print_time(time2);
+            cout << "|" << endl;
 
             cout << "+" << setfill('-') << setw(COL1 + COL2 + COL3 + 1) << "-" << "+" << endl;
             cout << endl;
