@@ -8,6 +8,7 @@
 #include "day4.h"
 #include "day5.h"
 #include "day6.h"
+#include "day7.h"
 
 using std::cout, std::cerr, std::endl;
 
@@ -25,6 +26,8 @@ void tests() {
     Day6::test(5, 23);
     Day6::manual_test("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 10, 29);
     Day6::manual_test("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 11, 26);
+
+    Day7::test(95437, 24933642);
 }
 
 void runs() {
@@ -34,6 +37,7 @@ void runs() {
     Day4::run();
     Day5::run();
     Day6::run();
+    Day7::run();
 }
 
 int main() {
