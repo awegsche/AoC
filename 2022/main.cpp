@@ -10,6 +10,9 @@
 #include "day6.h"
 #include "day7.h"
 #include "day8.h"
+#include "day9.h"
+
+//#define ONLY_TESTS
 
 using std::cout, std::cerr, std::endl;
 
@@ -31,6 +34,9 @@ void tests() {
     Day7::test(95437, 24933642);
 
     Day8::test(21, 8);
+
+    Day9::test(13, 1);
+    Day9::manual_test("R 5\nU 8\nL 8\nD 3\nR 17\nD 10\nL 25\nU 20", 0, 36);
 }
 
 void runs() {
@@ -42,12 +48,15 @@ void runs() {
     Day6::run();
     Day7::run();
     Day8::run();
+    Day9::run();
 }
 
 int main() {
     tests();
 
+#ifndef ONLY_TESTS
     runs();
+#endif
 
     return 0;
 }
