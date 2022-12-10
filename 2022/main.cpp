@@ -11,6 +11,7 @@
 #include "day7.h"
 #include "day8.h"
 #include "day9.h"
+#include "day10.h"
 
 //#define ONLY_TESTS
 
@@ -37,6 +38,8 @@ void tests() {
 
     Day9::test(13, 1);
     Day9::manual_test("R 5\nU 8\nL 8\nD 3\nR 17\nD 10\nL 25\nU 20", 0, 36);
+
+    Day10::test(13140, 0);
 }
 
 void runs() {
@@ -49,6 +52,7 @@ void runs() {
     Day7::run();
     Day8::run();
     Day9::run();
+    Day10::run();
 }
 
 int main() {
