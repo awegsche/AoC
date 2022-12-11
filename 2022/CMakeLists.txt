@@ -9,7 +9,7 @@ include_directories(../ext/re2/re2)
 add_executable(2022
         day3.h
         main.cpp
-        )
+         "day11.h")
 
 target_link_libraries( 2022
         aoc_cpp
