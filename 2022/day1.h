@@ -32,7 +32,7 @@ public:
 
         std::string line{};
 
-        while (std::getline(stream, line)) {
+        while (aoc::getline(stream, line)) {
             if (line.empty()) {
                 day.m_elves.emplace_back();
             }

@@ -5,6 +5,7 @@
 #ifndef AOC_AOCLINES_H
 #define AOC_AOCLINES_H
 
+#include <istream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -21,39 +22,40 @@ using std::cout, std::cerr, std::endl;
 
 namespace aoc {
 
-    template<typename Object>
-    class AocLines {
-    public:
-        explicit AocLines(std::istream &stream) noexcept {
+std::istream &getline(std::istream &stream, std::string &line, char delimiter);
 
-            while (true) {
-                std::optional<Object> obj = Object::from_istream(stream);
-                if (!obj) break;
-                m_objects.push_back(*obj);
-            }
-        }
+std::istream &getline(std::istream &stream, std::string &line);
 
-        static auto from_file(std::string const &filename) noexcept -> std::optional<AocLines> {
-            std::ifstream file(filename);
+template <typename Object> class AocLines {
+public:
+  explicit AocLines(std::istream &stream) noexcept {
 
-            if (!file.is_open()) {
-                std::cerr << "failed to open file \"" << filename << "\"" << std::endl;
-                return {};
-            }
+    while (true) {
+      std::optional<Object> obj = Object::from_istream(stream);
+      if (!obj)
+        break;
+      m_objects.push_back(*obj);
+    }
+  }
 
-            return AocLines(file);
-        }
+  static auto from_file(std::string const &filename) noexcept
+      -> std::optional<AocLines> {
+    std::ifstream file(filename);
 
-        [[nodiscard]] auto begin() noexcept {
-            return m_objects.begin();
-        }
+    if (!file.is_open()) {
+      std::cerr << "failed to open file \"" << filename << "\"" << std::endl;
+      return {};
+    }
 
-        [[nodiscard]] auto end() noexcept {
-            return m_objects.end();
-        }
+    return AocLines(file);
+  }
 
-    private:
-        std::vector<Object> m_objects;
+  [[nodiscard]] auto begin() noexcept { return m_objects.begin(); }
+
+  [[nodiscard]] auto end() noexcept { return m_objects.end(); }
+
+private:
+  std::vector<Object> m_objects;
     };
 
     template<typename Day>

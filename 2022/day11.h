@@ -7,6 +7,7 @@
 
 #include <re2/re2.h>
 
+#include <AocLines.h>
 #include <AocDay.h>
 #include <AocObject.h>
 #include <Split.h>
@@ -79,12 +80,12 @@ struct Monkey : public aoc::AocObject<Monkey> {
 
 		std::string line;
 
-		if (!std::getline(stream, line, ' ')) return false; // skip 'Monkey ', if no new monkey comes, bail
-		std::getline(stream, monkey.number, ':'); // read monkey number
+		if (!aoc::getline(stream, line, ' ')) return false; // skip 'Monkey ', if no new monkey comes, bail
+		aoc::getline(stream, monkey.number, ':'); // read monkey number
 		//std::getline(stream, line); // skip until end of line (1 char)
 
-		std::getline(stream, line, ':'); // skip until "items:"
-		std::getline(stream, line); // read starting items
+		aoc::getline(stream, line, ':'); // skip until "items:"
+		aoc::getline(stream, line); // read starting items
 
 		int pos = 0;
 		int last = 0;
@@ -94,9 +95,9 @@ struct Monkey : public aoc::AocObject<Monkey> {
 		}
 		monkey.starting_items.push_back(std::stoi(line.substr(last, pos)));
 
-		std::getline(stream, line, ':'); // skipl "Operation:"
-		std::getline(stream, line, '='); // skip until the assignment (we assume that it always starts with "new = "
-		std::getline(stream, line);
+		aoc::getline(stream, line, ':'); // skipl "Operation:"
+		aoc::getline(stream, line, '='); // skip until the assignment (we assume that it always starts with "new = "
+		aoc::getline(stream, line);
 
 		std::string lhs;
 		std::string rhs;
@@ -111,17 +112,17 @@ struct Monkey : public aoc::AocObject<Monkey> {
 		case '*': monkey.operation.op = MonkeyOperation::Mul; break;
 		}
 
-		std::getline(stream, line); // line "Test: divisible by \d+"
+		aoc::getline(stream, line); // line "Test: divisible by \d+"
 		re2::RE2::FullMatch(line, RE_TEST, &monkey.divisible_by);
 
-		std::getline(stream, line);
+		aoc::getline(stream, line);
 		monkey.throw_true = std::stoi(line.substr(line.find_last_of(' ')));
 
-		std::getline(stream, line);
+		aoc::getline(stream, line);
 		line.find_last_of(' ');
 		monkey.throw_false = std::stoi(line.substr(line.find_last_of(' ')));
 
-		std::getline(stream, line); // skip empty line in between the monkeys
+		aoc::getline(stream, line); // skip empty line in between the monkeys
 		return true;
 	}
 };

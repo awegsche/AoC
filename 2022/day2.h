@@ -14,6 +14,7 @@
 #include <numeric>
 #include <algorithm>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -35,7 +36,7 @@ public:
     static auto get_object(std::istream& stream, Day2& day) -> bool {
         std::string line{};
 
-        while (std::getline(stream, line)) {
+        while (aoc::getline(stream, line)) {
             day.games.push_back({line[0], line[2]});
         }
         return true;

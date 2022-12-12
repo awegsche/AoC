@@ -60,6 +60,18 @@ void runs() {
 }
 
 int main() {
+    
+    cout << "hello" << endl;
+
+    /*
+    auto day10 = Day10::from_input();
+
+    if (day10) {
+        day10->show_window();
+    }
+    return 0;
+    */
+
     tests();
 
 #ifndef ONLY_TESTS
