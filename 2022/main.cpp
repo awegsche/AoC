@@ -45,7 +45,7 @@ void tests() {
 
     Day11::test(10605, 2713310158);
 
-    Day12::test(10, 0);
+    Day12::test(31, 29);
 }
 
 void runs() {

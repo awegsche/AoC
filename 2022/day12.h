@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <limits.h>
 #include <unordered_map>
+#include <compare>
 
 #include <AocObject.h>
 #include <AocDay.h>
@@ -49,10 +50,10 @@ class Day12 : public aoc::AocObject<Day12>, public aoc::AocDay<Day12, int> {
     Pos2D end;
 
 
-public:
+    public:
     static constexpr char FILENAME[] = "12";
     static constexpr char YEAR[] = "2022";
-    static constexpr char TITLE[] = "Cathode-Ray Tube";
+    static constexpr char TITLE[] = "Hill Climbing Algorithm";
 
     static auto get_object(std::istream& stream, Day12& day) -> bool {
 
@@ -86,12 +87,12 @@ public:
         return true;
     }
 
-    auto print_path(std::vector<Pos2D> const& path, std::unordered_map<Pos2D, Pos2D>& prev) const {
+    auto print_path(std::vector<Pos2D> const& path, std::unordered_map<Pos2D, Pos2D> const& prev) const {
         auto find = [&path] (Pos2D const& p) -> int {
             for (int i = 0; i < path.size(); ++i) {
                 if (p == path[i]) return i;
             }
-                return -1;
+            return -1;
         };
 
         cout << "path len: " << path.size() << endl;
@@ -103,15 +104,13 @@ public:
                 int h = heightmap[y*width+x] * 255 / 26;
                 int found = find({x,y});
                 cout <<"\33[48;2;" << h << ";" << h << ";" << h << "m";
-                /*
-                if (found != -1) {
-                    //auto col = 255 -255 * found / path.size();
-                    int col = 255;
-                    cout << "\33[38;2;" << col << ";50;50m" << c;
+                   if (found != -1) {
+                //auto col = 255 -255 * found / path.size();
+                int col = 255;
+                cout << "\33[38;2;" << col << ";50;50m";
                 }
-                */
                 Pos2D p0 = {x,y};
-                Pos2D const& p = prev[p0];
+                Pos2D const& p = prev.at(p0);
                 if (p == Pos2D{-1,-1})
                     cout << c;
                 else if (p.x < p0.x) {
@@ -136,7 +135,8 @@ public:
     }
 
 
-    auto dijkstra() const -> int {
+    template<typename Comp>
+    auto dijkstra(Comp const& comp) const -> int {
 
         cout << "start: " << start << endl;
         cout << "end: " << end << endl;
@@ -162,24 +162,13 @@ public:
             queue.pop_back();
 
             std::vector<Pos2D> path{};
-            /*
-            auto p0 = current.pos;
-            while (p0 != start) {
-                path.push_back(p0);
-                p0 = prev[p0];
-            }
-            print_path(path);
-            */
-
             for (auto const& dPos: DELTA_POS) {
                 auto p = current.pos + dPos;
 
                 auto dh = heightmap[p.x + p.y*width] -heightmap[current.pos.x + current.pos.y * width];
 
                 if (dh <= 1 && p.x >= 0 && p.y >= 0 && p.x < width && p.y < height){
-                    //auto alt = current.length + heightmap[p.x + p.y*width];
                     auto alt = current.length + 1;
-                    //cout << "add " << p << endl;
                     if (alt < best[p]) {
                         best[p] = alt;
                         prev[p] = current.pos;
@@ -190,22 +179,22 @@ public:
             }
         }
 
-            std::vector<Pos2D> path{};
-            auto p0 = end;
-            while (p0 != start && p0 != Pos2D{-1,-1}) {
-                path.push_back(p0);
-                p0 = prev[p0];
-            }
-            print_path(path, prev);
+        std::vector<Pos2D> path{};
+        auto p0 = end;
+        while (comp(p0) && p0 != Pos2D{-1,-1}) {
+            path.push_back(p0);
+            p0 = prev[p0];
+        }
+        print_path(path, prev);
         return path.size();
     }
 
     int part1() const override {
-        return dijkstra();
+        return dijkstra([this](Pos2D const& p) { return this->start != p;});
     }
 
     int part2() const override {
-        return 0;
+        return dijkstra([this](Pos2D const& p) { return this->heightmap[p.x + this->width * p.y] != 0; });
     }
 
 };
