@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <bitset>
 
-#include "day1.h"
+//#include "day1.h"
 #include "day2.h"
 #include "day3.h"
 #include "day4.h"
@@ -12,13 +12,14 @@
 #include "day8.h"
 #include "day9.h"
 #include "day10.h"
+#include "day12.h"
 
 //#define ONLY_TESTS
 
 using std::cout, std::cerr, std::endl;
 
 void tests() {
-    Day1::test(24000, 45000);
+ //   Day1::test(24000, 45000);
 
     Day2::test(15, 12);
 
@@ -40,10 +41,12 @@ void tests() {
     Day9::manual_test("R 5\nU 8\nL 8\nD 3\nR 17\nD 10\nL 25\nU 20", 0, 36);
 
     Day10::test(13140, 0);
+
+    Day12::test(10, 0);
 }
 
 void runs() {
-    Day1::run();
+  //  Day1::run();
     Day2::run();
     Day3::run();
     Day4::run();
@@ -53,6 +56,7 @@ void runs() {
     Day8::run();
     Day9::run();
     Day10::run();
+    Day12::run();
 }
 
 int main() {
