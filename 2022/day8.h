@@ -8,6 +8,7 @@
 #include <iostream>
 #include <vector>
 
+#include <AocLines.h>
 #include <AocDay.h>
 #include <AocObject.h>
 
@@ -26,7 +27,7 @@ public:
         day.m_trees.clear();
 
         std::string line{};
-        while(std::getline(stream, line)) {
+        while(aoc::getline(stream, line)) {
             auto& row = day.m_trees.emplace_back();
             for (char c: line) {
                 row.push_back(c - '0');

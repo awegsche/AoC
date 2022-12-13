@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -36,7 +37,7 @@ public:
     static constexpr char TITLE[] = "Tuning Trouble";
 
     static auto get_object(std::istream &stream, Day6 &day) -> bool {
-        return (bool) std::getline(stream, day.m_message);
+        return (bool) aoc::getline(stream, day.m_message);
     }
 
     int part1() const override {

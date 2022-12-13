@@ -10,6 +10,7 @@
 #include <iostream>
 #include <re2.h>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -40,7 +41,7 @@ public:
         std::vector<std::string> stack_defs;
 
         std::string line{};
-        while (std::getline(stream, line)) {
+        while (aoc::getline(stream, line)) {
             if (line.empty()) break;
             stack_defs.push_back(line);
         }
@@ -63,7 +64,7 @@ public:
             }
         }
 
-        while (std::getline(stream, line)) {
+        while (aoc::getline(stream, line)) {
             Command cmd{};
             if (RE2::FullMatch(line, re_cmd, &cmd.amount, &cmd.from, &cmd.to)) {
                 // fix 1-based index

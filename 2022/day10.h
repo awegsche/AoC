@@ -8,7 +8,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <raylib-cpp.hpp>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -35,7 +37,7 @@ public:
         day.m_commands.clear();
 
         std::string line{};
-        while (std::getline(stream, line)) {
+        while (aoc::getline(stream, line)) {
 
             if (line == "noop")
                 day.m_commands.push_back({Operation::Noop, 0});
@@ -109,6 +111,25 @@ public:
         }
 
         return score;
+    }
+
+    void show_window() const {
+
+        auto window = raylib::Window(512, 512, TITLE);
+
+        window.SetTargetFPS(60);
+
+        raylib::Rectangle r = { 10, 10, 200, 10 };
+        raylib::Vector2 pos{ 10, 10 };
+
+        while (!window.ShouldClose()) {
+            window.ClearBackground(RAYWHITE);
+            window.BeginDrawing();
+
+            window.DrawFPS();
+            window.EndDrawing();
+        }
+
     }
 };
 #endif //AOC_DAY10_H

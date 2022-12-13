@@ -8,4 +8,5 @@ add_library(aoc_cpp
         timing.cpp
         lib.cpp
         Pos2D.cpp
-        )
+        AocLines.cpp
+)

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <filesystem>
+#include <optional>
 
 #include "pretty.h"
 #include "timing.h"
@@ -71,6 +72,7 @@ namespace aoc {
         /// \param filename
         /// \return
         static auto from_file(std::filesystem::path const &filename) -> std::optional<Day> {
+            cout << "reading Day" << Day::FILENAME << " from file \"" << filename << "\"" << endl;
             std::ifstream file(filename);
 
             if (!file.is_open()) {
@@ -103,16 +105,21 @@ namespace aoc {
             return true;
         }
 
+        static auto from_input() -> std::optional<Day> {
+            return from_file(std::filesystem::path(SOURCE_DIR)
+                                 / Day::YEAR
+                                 / (std::string("inputs/day") + Day::FILENAME + "_input.txt"));
+        }
+
         /// Actually solves this `Day`'s puzzle. Reading the input from `inputs/day##_input.txt` and
         /// printing out the solution.
         /// \return
         static auto run() -> bool {
             using std::chrono::steady_clock;
 
+            auto day = from_input();
+
             Timer timer{};
-            auto day = from_file(std::filesystem::path(SOURCE_DIR)
-                                 / Day::YEAR
-                                 / (std::string("inputs/day") + Day::FILENAME + "_input.txt"));
             auto time_setup = timer.elapsed();
             if (!day) return false;
 

@@ -12,6 +12,7 @@
 #include <memory>
 #include <set>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -81,11 +82,11 @@ public:
 
         auto current_dir = day.root;
 
-        std::getline(stream, line); // skip first cd, we are already in "/"
-        std::getline(stream, line);
+        aoc::getline(stream, line); // skip first cd, we are already in "/"
+        aoc::getline(stream, line);
         do {
             if (line == "$ ls") {
-                std::getline(stream, line);
+                aoc::getline(stream, line);
                 while (!line.starts_with("$")) {
                     if (line.starts_with("dir ")) {
                         current_dir->dirs.emplace_back(std::make_shared<Dir>(line.substr(4), current_dir));
@@ -95,7 +96,7 @@ public:
                         int size = std::stoi(line, &pos);
                         current_dir->files.push_back({line.substr(pos), size});
                     }
-                    if (!std::getline(stream, line)) return true;
+                    if (!aoc::getline(stream, line)) return true;
                 }
             }
             else if (line.starts_with("$ cd")) {
@@ -114,7 +115,7 @@ public:
                     }
                     current_dir = *found;
                 }
-                if (!std::getline(stream, line)) return true;
+                if (!aoc::getline(stream, line)) return true;
             }
             else {
                 cerr << "unknown command \"" << line << "\"" <<endl;

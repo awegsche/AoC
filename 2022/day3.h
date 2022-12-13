@@ -10,6 +10,7 @@
 #include <limits>
 #include <bitset>
 
+#include <AocLines.h>
 #include <AocObject.h>
 #include <AocDay.h>
 
@@ -37,7 +38,7 @@ public:
         rucksack.bitmask_a = 0;
         rucksack.bitmask_b = 0;
 
-        if (std::getline(stream, line)) {
+        if (aoc::getline(stream, line)) {
             for (char c: line)
                rucksack.bitmask |= (1LL << number_from_char(c));
             for (int i = 0; i < line.size()/2; ++i) {
