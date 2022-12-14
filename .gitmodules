@@ -4,3 +4,9 @@
 [submodule "ext/re2"]
 	path = ext/re2
 	url = git@github.com:google/re2.git
+[submodule "ext/raylib"]
+	path = ext/raylib
+	url = git@github.com:raysan5/raylib.git
+[submodule "ext/raylib-cpp"]
+	path = ext/raylib-cpp
+	url = git@github.com:RobLoach/raylib-cpp.git
