@@ -51,7 +51,6 @@ struct Package: public aoc::AocObject<Package> {
       }
       else {
          cerr << "unexpected token '" << c << "'" << endl;
-         cerr << "eof" << (char)stream.eof() << "'" << endl;
          return false;
       }
       return true;
