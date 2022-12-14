@@ -3,5 +3,8 @@ target
 Cargo.lock
 .vs
 .idea
+.cache
 out
 *build*
+CMakeSettings.json
+compile_commands.json
