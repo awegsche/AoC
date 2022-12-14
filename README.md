@@ -4,7 +4,7 @@ my solutions for [Advent of Code](https://adventofcode.com/)
 ## Events
 
 - [2021](2021) [25<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
-- [2022](2022) [24<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
+- [2022](2022) [26<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
 
 ## Usage
 

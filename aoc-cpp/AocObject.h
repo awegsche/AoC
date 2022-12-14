@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <optional>
+#include <sstream>
 
 namespace aoc {
 
@@ -19,6 +20,17 @@ namespace aoc {
             if (Object::get_object(stream, obj))
                 return obj;
             return {};
+        }
+
+        /// Constructs the Object from a string
+        ///
+        /// Example:
+        /// ```
+        /// auto obj = Object::from_string("[1,1,1]");
+        /// ```
+        static auto from_string(std::string const& s) -> std::optional<Object> {
+            std::stringstream ss{s};
+            return from_istream(ss);
         }
     };
 

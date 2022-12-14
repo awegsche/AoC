@@ -14,13 +14,15 @@
 #include "day10.h"
 #include "day11.h"
 #include "day12.h"
+#include "day13.h"
 
 //#define ONLY_TESTS
 
 using std::cout, std::cerr, std::endl;
 
 void tests() {
- //   Day1::test(24000, 45000);
+    //  note: Day1 uses ranges which seem not supported by clang
+    //Day1::test(24000, 45000);
 
     Day2::test(15, 12);
 
@@ -46,6 +48,8 @@ void tests() {
     Day11::test(10605, 2713310158);
 
     Day12::test(31, 29);
+
+    Day13::test(13,140);
 }
 
 void runs() {
@@ -61,6 +65,7 @@ void runs() {
     Day10::run();
     Day11::run();
     Day12::run();
+    Day13::run();
 }
 
 int main() {
