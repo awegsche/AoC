@@ -15,6 +15,7 @@
 #include "day11.h"
 #include "day12.h"
 #include "day13.h"
+#include "day14.h"
 
 //#define ONLY_TESTS
 
@@ -50,6 +51,8 @@ void tests() {
     Day12::test(31, 29);
 
     Day13::test(13,140);
+
+    Day14::test(24,93);
 }
 
 void runs() {
@@ -66,20 +69,10 @@ void runs() {
     Day11::run();
     Day12::run();
     Day13::run();
+    Day14::run();
 }
 
 int main() {
-    
-    cout << "hello" << endl;
-
-    /*
-    auto day10 = Day10::from_input();
-
-    if (day10) {
-        day10->show_window();
-    }
-    return 0;
-    */
 
     tests();
 

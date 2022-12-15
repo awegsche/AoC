@@ -15,6 +15,18 @@ add_executable(2022
 target_link_libraries( 2022
         aoc_cpp
         re2
+        )
+
+add_executable(2022_gui
+        main.cpp )
+
+set_target_properties(2022
+        PROPERTIES COMPILE_DEFINITIONS "NGUI"
+)
+
+target_link_libraries( 2022_gui
+        aoc_cpp
+        re2
         raylib
         raylib_cpp
         )

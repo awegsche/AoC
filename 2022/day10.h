@@ -8,7 +8,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#ifndef NGUI
 #include <raylib-cpp.hpp>
+#endif
 
 #include <AocLines.h>
 #include <AocObject.h>
@@ -111,25 +113,6 @@ public:
         }
 
         return score;
-    }
-
-    void show_window() const {
-
-        auto window = raylib::Window(512, 512, TITLE);
-
-        window.SetTargetFPS(60);
-
-        raylib::Rectangle r = { 10, 10, 200, 10 };
-        raylib::Vector2 pos{ 10, 10 };
-
-        while (!window.ShouldClose()) {
-            window.ClearBackground(RAYWHITE);
-            window.BeginDrawing();
-
-            window.DrawFPS();
-            window.EndDrawing();
-        }
-
     }
 };
 #endif //AOC_DAY10_H
