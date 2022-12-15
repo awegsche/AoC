@@ -4,6 +4,9 @@
 #include <functional>
 #include <iostream>
 
+#ifndef AOC_CPP_POS2D_H
+#define AOC_CPP_POS2D_H
+
 namespace aoc {
 
     struct Pos2D {
@@ -36,3 +39,5 @@ struct std::hash<aoc::Pos2D> {
 };
 
 std::ostream &operator<<(std::ostream &os, aoc::Pos2D const &p);
+
+#endif

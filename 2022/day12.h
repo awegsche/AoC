@@ -150,7 +150,7 @@ class Day12 : public aoc::AocObject<Day12>, public aoc::AocDay<Day12, int> {
         for (int y = 0; y < height; ++y)
             for (int x = 0; x < width; ++x){
                 best.insert({{x,y}, std::numeric_limits<int>::max()});
-                prev.insert({{x,y}, {-1,-1}});
+                prev.insert({Pos2D{x,y}, Pos2D{-1,-1}});
             }
 
         queue.push_back({0, start});
@@ -165,9 +165,9 @@ class Day12 : public aoc::AocObject<Day12>, public aoc::AocDay<Day12, int> {
             for (auto const& dPos: DELTA_POS) {
                 auto p = current.pos + dPos;
 
-                auto dh = heightmap[p.x + p.y*width] -heightmap[current.pos.x + current.pos.y * width];
 
-                if (dh <= 1 && p.x >= 0 && p.y >= 0 && p.x < width && p.y < height){
+				if (p.x >= 0 && p.y >= 0 && p.x < width && p.y < height
+					&& (heightmap[p.x + p.y * width] - heightmap[current.pos.x + current.pos.y * width]) <= 1) {
                     auto alt = current.length + 1;
                     if (alt < best[p]) {
                         best[p] = alt;
