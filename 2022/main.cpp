@@ -1,8 +1,14 @@
-#include <iostream>
-#include <filesystem>
 #include <bitset>
+#include <filesystem>
+#include <iostream>
 
-//#include "day1.h"
+// #include "day1.h"
+#include "day10.h"
+#include "day11.h"
+#include "day12.h"
+#include "day13.h"
+#include "day14.h"
+#include "day15.h"
 #include "day2.h"
 #include "day3.h"
 #include "day4.h"
@@ -11,19 +17,14 @@
 #include "day7.h"
 #include "day8.h"
 #include "day9.h"
-#include "day10.h"
-#include "day11.h"
-#include "day12.h"
-#include "day13.h"
-#include "day14.h"
 
-//#define ONLY_TESTS
+// #define ONLY_TESTS
 
 using std::cout, std::cerr, std::endl;
 
 void tests() {
     //  note: Day1 uses ranges which seem not supported by clang
-    //Day1::test(24000, 45000);
+    // Day1::test(24000, 45000);
 
     Day2::test(15, 12);
 
@@ -50,13 +51,15 @@ void tests() {
 
     Day12::test(31, 29);
 
-    Day13::test(13,140);
+    Day13::test(13, 140);
 
-    Day14::test(24,93);
+    Day14::test(24, 93);
+
+    Day15::test(24, 93);
 }
 
 void runs() {
-  //  Day1::run();
+    //  Day1::run();
     Day2::run();
     Day3::run();
     Day4::run();
@@ -70,6 +73,7 @@ void runs() {
     Day12::run();
     Day13::run();
     Day14::run();
+    Day15::run();
 }
 
 int main() {
