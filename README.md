@@ -6,6 +6,13 @@ my solutions for [Advent of Code](https://adventofcode.com/)
 - [2021](2021) [25<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
 - [2022](2022) [30<img src="media/aoc.png#gh-dark-mode-only" height=14><img src="media/aoc_inv.png#gh-light-mode-only" height=14>]
 
+## Tags
+
+From the 2022 challenge on there will be git tags defining a certain milestone:
+
+`<year>-challenge` marks the end of the Advent of Code challenge for the corresponding year
+(the progress that I made actually during the Advent period). This is to keep track of how far I got.
+
 ## Usage
 
 ### Rust

@@ -6,8 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-aoc = { path = "../aoc" }
-aoc_macros = { path = "../aoc_macros" }
+aoc = { path = "../rust/aoc" }
+aoc_macros = { path = "../rust/aoc_macros" }
 anyhow = "*"
 nalgebra = "*"
 lazy-regex = "*"
