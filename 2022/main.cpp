@@ -9,7 +9,10 @@
 #include "day13.h"
 #include "day14.h"
 #include "day15.h"
+// #include "day16.h"
+#include "day17.h"
 #include "day2.h"
+#include "day20.h"
 #include "day3.h"
 #include "day4.h"
 #include "day5.h"
@@ -77,6 +80,19 @@ void runs() {
 }
 
 int main() {
+
+    cout << "hello from emacs" << endl;
+
+    Day20::test(0, 0);
+
+    day17::Day17::test(0, 0);
+    // Day14::run();
+
+    return 0;
+
+    // Day16::test(0, 0);
+
+    return 0;
 
     tests();
 

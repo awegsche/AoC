@@ -4,6 +4,8 @@
 #include <functional>
 #include <iostream>
 
+//#include <glm/vec2.hpp>
+
 #ifndef AOC_CPP_POS2D_H
 #define AOC_CPP_POS2D_H
 
@@ -19,6 +21,8 @@ struct Pos2D {
     Pos2D() : x(0), y(0) {}
 
     explicit Pos2D(int a) : x(a), y(a) {}
+
+    //Pos2D(glm::vec2 const &other) : x(other.x), y(other.y) {}
 
     Pos2D(int x, int y) : x(x), y(y) {}
 

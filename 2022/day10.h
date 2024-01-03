@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 #ifndef NGUI
 #include <raylib-cpp.hpp>
 #endif

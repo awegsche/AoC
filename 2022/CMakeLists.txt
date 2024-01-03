@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(../aoc-cpp)
 include_directories(../ext/re2/re2)
+include_directories(../ext/glm)
 
 #find_package(raylib_cpp REQUIRED)
 #find_package(raylib REQUIRED)
@@ -29,4 +30,5 @@ target_link_libraries( 2022_gui
         re2
         raylib
         raylib_cpp
+        glm
         )

@@ -31,6 +31,8 @@ using SandMap = std::unordered_map<Pos2D, Cell>;
 #ifndef NGUI
 static const float RECTSIDE = 5.0f;
 static const float WIDTH = 1024.0f;
+constexpr int VIS_STEP = 5;
+
 #endif
 
 /// Updates the sand block's position
@@ -289,7 +291,7 @@ public:
       ++print_int;
 
 #ifndef NGUI
-      if (print_int == 100) {
+      if (print_int == VIS_STEP) {
         draw_frame(cells, window, "Part 2");
         print_int = 0;
       }
