@@ -8,3 +8,10 @@ out
 *build*
 CMakeSettings.json
 compile_commands.json
+*zig-out*
+*zig-cache*
+
+
+# Added by cargo
+
+/target

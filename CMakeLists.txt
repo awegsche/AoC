@@ -6,7 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 
-add_subdirectory(aoc-cpp)
+add_subdirectory(cpp/aoc-cpp)
 add_subdirectory(ext/re2)
 add_subdirectory(ext/glm)
 

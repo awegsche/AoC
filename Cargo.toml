@@ -1,8 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
-    "aoc",
-    "aoc_macros",
+    "rust/aoc",
+    "rust/aoc_macros",
     "2021",
     "2020",
 ]

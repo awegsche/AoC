@@ -3,7 +3,7 @@ project(2022)
 
 set(CMAKE_CXX_STANDARD 23)
 
-include_directories(../aoc-cpp)
+include_directories(../cpp/aoc-cpp)
 include_directories(../ext/re2/re2)
 include_directories(../ext/glm)
 
