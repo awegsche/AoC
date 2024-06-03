@@ -10,3 +10,7 @@ add_library(aoc_cpp
         Pos2D.cpp
         AocLines.cpp
 )
+
+target_link_libraries(aoc_cpp
+        fmttools
+)
