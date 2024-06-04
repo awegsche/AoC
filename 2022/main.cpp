@@ -86,7 +86,7 @@ int main() {
     Day20::test(0, 0);
 
     day17::Day17::test(0, 0);
-    // Day14::run();
+    Day14::run();
 
     return 0;
 

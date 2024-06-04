@@ -11,7 +11,9 @@ include_directories(../ext/glm)
 #find_package(raylib REQUIRED)
 
 add_executable(2022
-        main.cpp )
+        main.cpp
+        ../2019_cpp/main.cpp
+        ../2019_cpp/day10.h)
 
 target_link_libraries( 2022
         aoc_cpp

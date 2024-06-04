@@ -10,10 +10,10 @@ add_subdirectory(cpp/aoc-cpp)
 add_subdirectory(ext/re2)
 add_subdirectory(ext/glm)
 
+include(FetchContent)
 # raylib
 find_package(raylib QUIET)
 if (NOT raylib_FOUND)
-    include(FetchContent)
     FetchContent_Declare(
         raylib
         GIT_REPOSITORY https://github.com/raysan5/raylib.git
@@ -25,7 +25,6 @@ endif()
 # raylib-cpp
 find_package(raylib_cpp QUIET)
 if (NOT raylib_cpp_FOUND)
-    include(FetchContent)
     FetchContent_Declare(
         raylib_cpp
         GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
@@ -34,7 +33,6 @@ if (NOT raylib_cpp_FOUND)
     FetchContent_MakeAvailable(raylib_cpp)
 endif()
 
-include(FetchContent)
 
 FetchContent_Declare(
         fmttools
@@ -44,6 +42,7 @@ FetchContent_Declare(
 
 FETCHCONTENT_MAKEAVAILABLE(fmttools)
 
+add_subdirectory(2015_c)
 add_subdirectory(2022)
 add_subdirectory(2019_cpp)
 
