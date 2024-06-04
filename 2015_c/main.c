@@ -4,11 +4,20 @@
 #include "day01.h"
 #include "log.h"
 
-const int STEPTIME = 30;
+const int STEPTIME = 1;
 
 
 int main(int argc, char** argv) {
-    printf("hello %s %d", "42", 69);
+    printf("AoC 2015 -- in C\n");
+
+
+    // check if we are in the right dir
+    FILE* file = fopen("2015/input/day01.txt", "r");
+    if (!file) {
+        fprintf(stderr, "Couldn't load input file, are we in the right directory?\n");
+        return 1;
+    }
+    fclose(file);
 
     const int width = 1280;
     const int height = 960;

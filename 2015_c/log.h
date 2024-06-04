@@ -16,7 +16,7 @@ typedef struct {
 
 LogManager log_manager_init() {
     LogManager man;
-    man.messages = (char **)malloc(LOG_MANAGER_CAPACITY);
+    man.messages = (char **)malloc(LOG_MANAGER_CAPACITY*sizeof(char*));
     man.len      = 0;
     man.cap      = LOG_MANAGER_CAPACITY;
 
@@ -25,8 +25,9 @@ LogManager log_manager_init() {
 
 void log_manager_append(LogManager *man, const char *message) {
     if (man->len == man->cap) {
-        char **new_data = (char **)malloc(man->cap * 1.5);
-        memcpy(new_data, man->messages, man->len);
+        man->cap = man->cap * 2;
+        char **new_data = (char **)malloc(man->cap*sizeof(char*));
+        memcpy(new_data, man->messages, man->len*sizeof(char*));
         free(man->messages);
         man->messages = new_data;
     }
@@ -45,10 +46,10 @@ void log_manager_cleanup(LogManager *man) {
 
 void draw_messages(const LogManager *man) {
     int max_lines     = 480 / 20;
-    int lines_to_draw = man->len > max_lines ? max_lines : man->len;
+    int first_line = man->len > max_lines ? man->len - max_lines : 0;
 
-    for (int i = 0; i < lines_to_draw; ++i) {
-        DrawText(man->messages[i], 20, 480 + 20 * i, 20, GRAY);
+    for (int i = first_line; i < man->len; ++i) {
+        DrawText(man->messages[i], 20, 480 + 20 * (i-first_line), 20, GRAY);
     }
 }
 
