@@ -16,6 +16,19 @@ From the 2022 challenge on there will be git tags defining a certain milestone:
 `<year>-challenge` marks the end of the Advent of Code challenge for the corresponding year
 (the progress that I made actually during the Advent period). This is to keep track of how far I got.
 
+## Getting Started
+
+- Rust projects are managed by `cargo`, just
+```shell
+cargo run --bin AoC2021
+```
+and you're good to go.
+
+- C and C++ are managed by `cmake` using presets
+```shell
+cmake  --build  --preset debug-clang --target aoc2015_c  && .\builds\debug-clang\2015_c\aoc2015_c.exe
+```
+
 ## Usage
 
 ### Rust
