@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 
+message("---- 2015 in C -----------------------------------------------------------------")
 project(aoc2015_c)
 
 # find_package(raylib REQUIRED)

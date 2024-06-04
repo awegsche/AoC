@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.24)
+
+message("---- 2019 in C++ ---------------------------------------------------------------")
 project(2019)
 
 set(CMAKE_CXX_STANDARD 23)
 
 include_directories(../cpp/aoc-cpp)
-include_directories(../ext/re2/re2)
-include_directories(../ext/glm)
 include_directories(${CMAKE_SOURCE_DIR})
 
 #find_package(raylib_cpp REQUIRED)
