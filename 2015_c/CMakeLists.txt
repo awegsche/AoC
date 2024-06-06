@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.19)
 
 
 message("---- 2015 in C -----------------------------------------------------------------")
 project(aoc2015_c)
 
 # find_package(raylib REQUIRED)
+# FindOpenSSL()
 
 add_executable(
     aoc2015_c
@@ -13,4 +14,6 @@ add_executable(
 
 target_link_libraries(
     aoc2015_c
-    raylib)
+    raylib
+    #OpenSSL::SSL
+)
