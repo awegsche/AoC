@@ -2,6 +2,9 @@
 #define DAY5_H
 
 #include "log.h"
+#include "raylib.h"
+#include <stdbool.h>
+
 #define DO_TEST1 1
 #define DO_TEST2 2
 #define DO_TEST3 3
@@ -22,8 +25,6 @@
 #define END_SUCCESS 64
 #define AT_END 65
 
-#include "raylib.h"
-#include <stdbool.h>
 
 bool is_nice(const char *message) {
     int vowels      = 0;
