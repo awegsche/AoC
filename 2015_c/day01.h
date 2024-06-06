@@ -1,3 +1,4 @@
+#include "common.h"
 #include "log.h"
 #include <raylib.h>
 #include <stdio.h>
@@ -114,7 +115,7 @@ void solve_step(Day1 *data) {
     DrawText(data->value_line, 20, 95, 20, GREEN);
 }
 
-void do_day01(int steptime, LogManager *man) {
+void do_day1(LogManager *man) {
     int ticker = 0;
 
     Day1 data;
@@ -136,7 +137,7 @@ void do_day01(int steptime, LogManager *man) {
 
     WindowShouldClose();
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground(BACKGROUND);
     draw_messages(man);
     EndDrawing();
 
@@ -145,11 +146,11 @@ void do_day01(int steptime, LogManager *man) {
 
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BACKGROUND);
         DrawText("Solving Advent of Code 2015 in C", 20, 20, 20, LIGHTGRAY);
         solve_step(&data);
 
-        if (!data.finished && ticker == steptime) {
+        if (!data.finished && ticker == 10) {
             ticker = 0;
             for(int ii = 0; ii < JUMP; ++ii) {
             advance_step(&data);

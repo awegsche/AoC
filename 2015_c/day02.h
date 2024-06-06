@@ -1,6 +1,7 @@
 #ifndef DAY2_H
 #define DAY2_H
 
+#include "common.h"
 #include "log.h"
 #include <raylib.h>
 #include <stdio.h>
@@ -90,7 +91,7 @@ void do_day2(LogManager *man) {
         }
 
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(BACKGROUND);
 
         switch (section) {
         case OPENFILE:

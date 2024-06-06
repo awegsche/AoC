@@ -1,6 +1,7 @@
 #ifndef DAY3_H
 #define DAY3_H
 
+#include "common.h"
 #include "log.h"
 #include <raylib.h>
 #include <stdio.h>
@@ -38,7 +39,7 @@ void do_day3(LogManager *man) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(BACKGROUND);
 
         switch (section) {
         case OPENFILE:

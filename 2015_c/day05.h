@@ -1,6 +1,7 @@
 #ifndef DAY5_H
 #define DAY5_H
 
+#include "common.h"
 #include "log.h"
 #include "raylib.h"
 #include <stdbool.h>
@@ -147,7 +148,7 @@ void do_day5(LogManager *man) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(BACKGROUND);
         switch (section) {
         case DO_TEST1:
             section = do_test(man, "aaa\0", true) ? DO_TEST2 : END_ERROR;

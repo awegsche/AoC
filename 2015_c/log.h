@@ -1,6 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include "common.h"
 #include <raylib.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -82,13 +83,13 @@ void log_manager_cleanup(LogManager *man) {
 }
 
 void draw_messages(const LogManager *man) {
-    int max_lines  = 480 / 20;
+    int max_lines  = 480 / log_font_size;
     int first_line = man->len > max_lines ? man->len - max_lines : 0;
 
     for (int i = first_line; i < man->len; ++i) {
         DrawTextEx(log_font, man->messages[i],
                    (Vector2){20, 480 + log_font_size * (i - first_line)},
-                   log_font_size, 0, GRAY);
+                   log_font_size, 0, FOREGROUND1);
     }
 }
 
