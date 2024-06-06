@@ -25,7 +25,6 @@
 #define END_SUCCESS 64
 #define AT_END 65
 
-
 bool is_nice(const char *message) {
     int vowels      = 0;
     bool has_double = false;

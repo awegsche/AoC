@@ -10,6 +10,9 @@
 #define LOG_MANAGER_CAPACITY 1024
 #define LOG_MANAGER_MESS_LENGTH 1024
 
+static Font log_font     = {0};
+static int log_font_size = 24;
+
 typedef struct {
     char **messages;
     size_t len;
@@ -22,8 +25,12 @@ LogManager log_manager_init() {
     man.len      = 0;
     man.cap      = LOG_MANAGER_CAPACITY;
 
+    log_font = GetFontDefault();
+
     return man;
 }
+
+void log_manager_set_font(Font font) { log_font = font; }
 
 void log_manager_append_owned(LogManager *man, char *message) {
     if (man->len == man->cap) {
@@ -45,7 +52,8 @@ char *log_manager_appendf(LogManager *man, const char *fmt, ...) {
     int len = vsprintf(buf, fmt, arglist);
     va_end(arglist);
 
-    char *message = (char *)malloc(len+128); // leave a bit of extra space for modifications
+    char *message = (char *)malloc(
+        len + 128); // leave a bit of extra space for modifications
     memcpy(message, buf, len);
     message[len] = 0;
     log_manager_append_owned(man, message);
@@ -78,7 +86,9 @@ void draw_messages(const LogManager *man) {
     int first_line = man->len > max_lines ? man->len - max_lines : 0;
 
     for (int i = first_line; i < man->len; ++i) {
-        DrawText(man->messages[i], 20, 480 + 20 * (i - first_line), 20, GRAY);
+        DrawTextEx(log_font, man->messages[i],
+                   (Vector2){20, 480 + log_font_size * (i - first_line)},
+                   log_font_size, 0, GRAY);
     }
 }
 
