@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <raylib.h>
 
-#include "day01.h"
-#include "day02.h"
+#include "day05.h"
 #include "log.h"
 
 const int STEPTIME = 1;
@@ -29,7 +28,7 @@ int main(int argc, char** argv) {
 
     SetTargetFPS(60);
 
-    do_day2(&logs);
+    do_day5(&logs);
 
     CloseWindow();
 
