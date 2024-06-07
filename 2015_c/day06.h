@@ -6,18 +6,20 @@
 #include "raylib.h"
 #include <stdbool.h>
 
-#define INIT 0
-#define TEST_1 1
-#define TEST_2 2
-#define END_TESTS 3
-#define LOAD_CMDS 4
-#define OPEN_FILE 5
-#define END_LOADING 6
-#define SOLVE1 7
-#define SOLVE2 8
-#define END_ERROR 32
-#define END_SUCCESS 33
-#define ATEND 64
+typedef enum {
+    DAY6_INIT,
+    DAY6_TEST_1,
+    DAY6_TEST_2,
+    DAY6_END_TESTS,
+    DAY6_LOAD_CMDS,
+    DAY6_OPEN_FILE,
+    DAY6_END_LOADING,
+    DAY6_SOLVE1,
+    DAY6_SOLVE2,
+    DAY6_END_ERROR,
+    DAY6_END_SUCCESS,
+    DAY6_ATEND
+} Day6_Section;
 
 #define LIGHTSTEP 12
 
@@ -237,28 +239,28 @@ void do_day6(LogManager *man) {
         ClearBackground(BACKGROUND);
 
         switch (section) {
-        case INIT:
+        case DAY6_INIT:
             UpdateTexture(texture, data);
             DrawTexture(texture, 0, 0, RAYWHITE);
-            section = TEST_1;
+            section = DAY6_TEST_1;
             break;
-        case OPEN_FILE:
+        case DAY6_OPEN_FILE:
             inputfile = fopen("2015/input/day06.txt", "r");
             log_manager_appendf(man, "loading inputfile");
 
             if (!inputfile) {
                 log_manager_appendf(man, "couldn't open inputfile");
-                section = END_ERROR;
+                section = DAY6_END_ERROR;
                 break;
             }
             log_manager_appendf(man, "opened inputfile");
             opened_cmds_log = log_manager_appendf(man, "loaded %4d commads", 0);
-            section         = LOAD_CMDS;
+            section         = DAY6_LOAD_CMDS;
             break;
-        case LOAD_CMDS:
+        case DAY6_LOAD_CMDS:
             if (!fgets(line, LINE_BUFFER_SIZE, inputfile)) {
                 printf("%s\n", line);
-                section = END_LOADING;
+                section = DAY6_END_LOADING;
                 break;
             }
             cmds[command_count] = read_from_str(line);
@@ -266,14 +268,14 @@ void do_day6(LogManager *man) {
             sprintf(opened_cmds_log, "loaded %llu commands", command_count);
             if (command_count == COMMAND_BUFFER_SIZE) {
                 log_manager_appendf(man, "exceeded command buffer size");
-                section = END_ERROR;
+                section = DAY6_END_ERROR;
             }
             break;
-        case END_LOADING:
+        case DAY6_END_LOADING:
             fclose(inputfile);
             log_manager_appendf(man, "loaded %d commands", command_count);
             log_manager_appendf(man, "--- Part 1 ---");
-            section = SOLVE1;
+            section = DAY6_SOLVE1;
 
             memset(data, 0, 1000 * 1000 * sizeof(Color3));
 
@@ -281,7 +283,7 @@ void do_day6(LogManager *man) {
             part1_log2 = log_manager_appendf(man, "lights on: %4d", 0);
 
             break;
-        case SOLVE1:
+        case DAY6_SOLVE1:
 
             exec_command(cmds[current_cmd], (Color3 *)data);
             ++current_cmd;
@@ -297,11 +299,11 @@ void do_day6(LogManager *man) {
                 log_manager_appendf(man, "--- Part 2 ---");
                 part2_log1 = log_manager_appendf(man, "executed %4d commands", 0);
                 part2_log2 = log_manager_appendf(man, "luminosity: %10d", 0);
-                section    = SOLVE2;
+                section    = DAY6_SOLVE2;
             }
 
             break;
-        case SOLVE2:
+        case DAY6_SOLVE2:
             exec_command2(cmds[current_cmd], (Color3 *)data);
             ++current_cmd;
             UpdateTexture(texture, data);
@@ -311,11 +313,11 @@ void do_day6(LogManager *man) {
             sprintf(part2_log2, "lights on: %llu", lights);
 
             if (current_cmd == command_count) {
-                section = END_SUCCESS;
+                section = DAY6_END_SUCCESS;
             }
             break;
 
-        case TEST_1:
+        case DAY6_TEST_1:
             // do the second example (the first one seems trivial)
             turn_on((Color3 *)data, (Vector2i){0, 0}, (Vector2i){999, 0});
             UpdateTexture(texture, data);
@@ -324,14 +326,14 @@ void do_day6(LogManager *man) {
             // just count the number of lights
             if (count_lights((const Color3 *)data) == 1000) {
                 log_manager_appendf(man, "test1 [  OK  ]");
-                section = TEST_2;
+                section = DAY6_TEST_2;
             } else {
                 log_manager_appendf(man, "test1 [FAILED]");
-                section = END_ERROR;
+                section = DAY6_END_ERROR;
             }
 
             break;
-        case TEST_2:
+        case DAY6_TEST_2:
             // do the second example (the first one seems trivial)
             turn_on((Color3 *)data, (Vector2i){499, 499}, (Vector2i){500, 500});
             UpdateTexture(texture, data);
@@ -339,27 +341,27 @@ void do_day6(LogManager *man) {
             // just count the number of lights
             if (count_lights((const Color3 *)data) == 1004) {
                 log_manager_appendf(man, "test2 [  OK  ]");
-                section = END_TESTS;
+                section = DAY6_END_TESTS;
             } else {
                 log_manager_appendf(man, "test2 [FAILED]");
-                section = END_ERROR;
+                section = DAY6_END_ERROR;
             }
             break;
-        case END_TESTS:
+        case DAY6_END_TESTS:
             log_manager_appendf(man, "all tests passed, continue solving puzzle");
-            section = OPEN_FILE;
+            section = DAY6_OPEN_FILE;
             break;
-        case END_ERROR:
+        case DAY6_END_ERROR:
             log_manager_appendf(man, "errors occured quit");
             log_manager_appendf(man, "--- END ---");
-            section = ATEND;
+            section = DAY6_ATEND;
             break;
-        case END_SUCCESS:
+        case DAY6_END_SUCCESS:
             log_manager_appendf(man, "success");
             log_manager_appendf(man, "--- END ---");
-            section = ATEND;
+            section = DAY6_ATEND;
             break;
-        case ATEND:
+        case DAY6_ATEND:
             break;
         }
 

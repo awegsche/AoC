@@ -8,31 +8,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define OPENFILE 0
-#define LOADFILE 1
-#define PART1_MOVE 2
-#define PART1_CALC 3
-#define PART2_MOVE 4
-#define PART2_CALC 5
-#define ENDERROR 32
-#define AFTEREND 64
+typedef enum {
+    DAY3_OPENFILE,
+    DAY3_LOADFILE,
+    DAY3_PART1_MOVE,
+    DAY3_PART1_CALC,
+    DAY3_PART2_MOVE,
+    DAY3_PART2_CALC,
+    DAY3_ENDERROR,
+    DAY3_AFTEREND
+} Day3_Section;
 
 void do_day3(LogManager *man) {
     char *line        = NULL;
     size_t line_len   = 0;
-    int section       = OPENFILE;
+    int section       = DAY3_OPENFILE;
     FILE *inputfile   = NULL;
     char *walking_msg = NULL;
 
     int WIDTH  = 1024;
     int HEIGHT = 1024;
 
-    int wh    = WIDTH * HEIGHT * sizeof(int);
-    int pos_x = 512;
-    int pos_y = 512;
+    int wh         = WIDTH * HEIGHT * sizeof(int);
+    int pos_x      = 512;
+    int pos_y      = 512;
     int pos_x_robo = 512;
     int pos_y_robo = 512;
-    int idx   = 0;
+    int idx        = 0;
 
     int *map = malloc(wh);
     memset(map, 0, wh);
@@ -42,12 +44,12 @@ void do_day3(LogManager *man) {
         ClearBackground(BACKGROUND);
 
         switch (section) {
-        case OPENFILE:
+        case DAY3_OPENFILE:
             log_manager_appendf(man, "loading file");
             inputfile = fopen("2015/input/day03.txt", "r");
             if (!inputfile) {
                 log_manager_appendf(man, "couldn't open input file");
-                section = ENDERROR;
+                section = DAY3_ENDERROR;
                 break;
             }
             fseek(inputfile, 0, SEEK_END);
@@ -58,11 +60,10 @@ void do_day3(LogManager *man) {
             fread(line, 1, line_len, inputfile);
 
             log_manager_appendf(man, "path loaded");
-            walking_msg =
-                log_manager_appendf(man, "walking ------------------");
-            section = PART1_MOVE;
+            walking_msg = log_manager_appendf(man, "walking ------------------");
+            section     = DAY3_PART1_MOVE;
             break;
-        case PART1_MOVE: {
+        case DAY3_PART1_MOVE: {
             char dir = ' ';
             for (int jj = 0; jj < 20; ++jj) {
                 dir = line[idx];
@@ -83,14 +84,13 @@ void do_day3(LogManager *man) {
                 ++idx;
 
                 if (idx == line_len) {
-                    section = PART1_CALC;
+                    section = DAY3_PART1_CALC;
                     log_manager_appendf(man, "finished walking path");
                     break;
                 }
-                if (pos_x < 0 || pos_x >= WIDTH || pos_y < 0 ||
-                    pos_y >= HEIGHT) {
+                if (pos_x < 0 || pos_x >= WIDTH || pos_y < 0 || pos_y >= HEIGHT) {
                     log_manager_appendf(man, "out of bounds of map");
-                    section = ENDERROR;
+                    section = DAY3_ENDERROR;
                     break;
                 }
                 ++map[WIDTH * pos_y + pos_x];
@@ -98,12 +98,11 @@ void do_day3(LogManager *man) {
 
             float perc = (float)idx / (float)line_len * 100.0f;
 
-            sprintf(walking_msg,
-                    "walking: move: %c; %.2f percent; pos: (%d, %d)", dir, perc,
-                    pos_x, pos_y);
+            sprintf(walking_msg, "walking: move: %c; %.2f percent; pos: (%d, %d)", dir, perc, pos_x,
+                    pos_y);
 
         } break;
-        case PART1_CALC: {
+        case DAY3_PART1_CALC: {
             int houses = 1; // init with starting point
             for (int y = 0; y < HEIGHT; ++y) {
                 for (int x = 0; x < WIDTH; ++x) {
@@ -113,9 +112,9 @@ void do_day3(LogManager *man) {
             }
             log_manager_appendf(man, "houses: %d", houses);
             memset(map, 0, sizeof(int) * wh);
-            section = PART2_MOVE;
+            section = DAY3_PART2_MOVE;
         } break;
-        case PART2_MOVE: {
+        case DAY3_PART2_MOVE: {
             char dir = ' ';
             for (int jj = 0; jj < 20; ++jj) {
                 dir = line[idx];
@@ -136,14 +135,13 @@ void do_day3(LogManager *man) {
                 ++idx;
 
                 if (idx == line_len) {
-                    section = PART1_CALC;
+                    section = DAY3_PART1_CALC;
                     log_manager_appendf(man, "finished walking path");
                     break;
                 }
-                if (pos_x < 0 || pos_x >= WIDTH || pos_y < 0 ||
-                    pos_y >= HEIGHT) {
+                if (pos_x < 0 || pos_x >= WIDTH || pos_y < 0 || pos_y >= HEIGHT) {
                     log_manager_appendf(man, "out of bounds of map");
-                    section = ENDERROR;
+                    section = DAY3_ENDERROR;
                     break;
                 }
                 ++map[WIDTH * pos_y + pos_x];
@@ -151,16 +149,15 @@ void do_day3(LogManager *man) {
 
             float perc = (float)idx / (float)line_len * 100.0f;
 
-            sprintf(walking_msg,
-                    "walking: move: %c; %.2f percent; pos: (%d, %d)", dir, perc,
-                    pos_x, pos_y);
+            sprintf(walking_msg, "walking: move: %c; %.2f percent; pos: (%d, %d)", dir, perc, pos_x,
+                    pos_y);
         } break;
-        case PART2_CALC:
+        case DAY3_PART2_CALC:
             break;
-        case ENDERROR:
-            section = AFTEREND;
+        case DAY3_ENDERROR:
+            section = DAY3_AFTEREND;
             break;
-        case AFTEREND:
+        case DAY3_AFTEREND:
             break;
         }
         draw_messages(man);
