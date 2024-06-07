@@ -6,6 +6,7 @@
 #include "day03.h"
 // #include "day04.h"
 #include "day05.h"
+#include "day06.h"
 #include "log.h"
 
 const int STEPTIME = 1;
@@ -36,7 +37,7 @@ int main(int argc, char **argv) {
 
     SetTargetFPS(60);
 
-    do_day3(&logs);
+    do_day6(&logs);
 
     CloseWindow();
 
