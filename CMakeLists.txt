@@ -11,10 +11,21 @@ add_compile_definitions(SOURCE_DIR="${CMAKE_SOURCE_DIR}")
 
 add_subdirectory(cpp/aoc-cpp)
 
-message("--------------------------------------------------------------------------------")
+message("\n--------------------------------------------------------------------------------")
 message("---- installing external libs --------------------------------------------------")
 message("--------------------------------------------------------------------------------")
+
 include(FetchContent)
+
+message("---- GoogleTest ----------------------------------------------------------------")
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 message("---- raylib --------------------------------------------------------------------")
 find_package(raylib QUIET)
 if (NOT raylib_FOUND)

@@ -7,7 +7,7 @@
 // #include "day04.h"
 #include "day05.h"
 #include "day06.h"
-#include "day07.h"
+//#include "day07.h"
 #include "log.h"
 
 const int STEPTIME = 1;
@@ -16,8 +16,9 @@ int main(int argc, char **argv) {
     printf("AoC 2015 -- in C\n");
 
     // check if we are in the right dir
-    FILE *file = fopen("2015/input/day01.txt", "r");
-    if (!file) {
+    FILE *file = 0;
+    int err = fopen_s(&file, "2015/input/day01.txt", "r");
+    if (err) {
         fprintf(stderr,
                 "Couldn't load input file, are we in the right directory?\n");
         return 1;

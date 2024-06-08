@@ -50,11 +50,10 @@ char *log_manager_appendf(LogManager *man, const char *fmt, ...) {
 
     va_list arglist;
     va_start(arglist, fmt);
-    int len = vsprintf(buf, fmt, arglist);
+    int len = vsprintf_s(buf, 10 * LOG_MANAGER_MESS_LENGTH, fmt, arglist);
     va_end(arglist);
 
-    char *message = (char *)malloc(
-        len + 128); // leave a bit of extra space for modifications
+    char *message = (char *)malloc(len + 128); // leave a bit of extra space for modifications
     memcpy(message, buf, len);
     message[len] = 0;
     log_manager_append_owned(man, message);
@@ -87,8 +86,7 @@ void draw_messages(const LogManager *man) {
     int first_line = man->len > max_lines ? man->len - max_lines : 0;
 
     for (int i = first_line; i < man->len; ++i) {
-        DrawTextEx(log_font, man->messages[i],
-                   (Vector2){20, 480 + log_font_size * (i - first_line)},
+        DrawTextEx(log_font, man->messages[i], (Vector2){20, 480 + log_font_size * (i - first_line)},
                    log_font_size, 0, FOREGROUND1);
     }
 }

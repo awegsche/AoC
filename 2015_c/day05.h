@@ -184,9 +184,10 @@ void do_day5(LogManager *man) {
             section = DAY5_PART1;
             break;
         case DAY5_PART1:
-            FILE *inputfile = fopen("2015/input/day05.txt", "r");
-            if (!inputfile) {
-                log_manager_appendf(man, "couldn't open inputfile");
+            FILE *inputfile = 0;
+            int err         = fopen_s(&inputfile, "2015/input/day05.txt", "r");
+            if (err) {
+                log_manager_appendf(man, "couldn't open inputfile = %d", err);
                 section = DAY5_END_ERROR;
                 break;
             }

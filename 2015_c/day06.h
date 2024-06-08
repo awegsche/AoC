@@ -182,11 +182,12 @@ size_t count_lumi(const Color3 *pixels) {
 
 Command read_from_str(const char *str) {
     Command cmd = {0};
-    if (sscanf(str, "turn on %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x, &cmd.p1.y))
+    if (sscanf_s(str, "turn on %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x, &cmd.p1.y))
         cmd.mode = TURN_ON;
-    else if (sscanf(str, "turn off %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x, &cmd.p1.y))
+    else if (sscanf_s(str, "turn off %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x,
+                      &cmd.p1.y))
         cmd.mode = TURN_OFF;
-    else if (sscanf(str, "toggle %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x, &cmd.p1.y))
+    else if (sscanf_s(str, "toggle %d,%d through %d,%d", &cmd.p0.x, &cmd.p0.y, &cmd.p1.x, &cmd.p1.y))
         cmd.mode = TOGGLE;
     return cmd;
 }
@@ -245,11 +246,11 @@ void do_day6(LogManager *man) {
             section = DAY6_TEST_1;
             break;
         case DAY6_OPEN_FILE:
-            inputfile = fopen("2015/input/day06.txt", "r");
             log_manager_appendf(man, "loading inputfile");
+            int err = fopen_s(&inputfile, "2015/input/day06.txt", "r");
 
-            if (!inputfile) {
-                log_manager_appendf(man, "couldn't open inputfile");
+            if (err) {
+                log_manager_appendf(man, "couldn't open inputfile, errno = %d", err);
                 section = DAY6_END_ERROR;
                 break;
             }

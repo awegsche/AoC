@@ -28,23 +28,24 @@ typedef struct {
 
 void day1_setup_data(Day1 *data, char *line) {
     printf("setup, line = %s\n", line);
-    data->line          = line;
-    data->pointer       = (char *)malloc((strlen(line) + 1) * sizeof(char));
-    data->pointer[0]    = 0;
-    data->value_line    = (char *)malloc(64 * sizeof(char));
-    data->value_line[0] = 0;
-    data->step          = 0;
-    data->floor         = 0;
-    data->offset        = 0;
-    data->finished      = false;
+    data->line                = line;
+    data->pointer             = (char *)malloc((strlen(line) + 1) * sizeof(char));
+    data->pointer[0]          = 0;
+    data->value_line          = (char *)malloc(64 * sizeof(char));
+    data->value_line[0]       = 0;
+    data->step                = 0;
+    data->floor               = 0;
+    data->offset              = 0;
+    data->finished            = false;
     data->underground_reached = false;
     // printf("sizeof(char) = %llu", sizeof(char));
 }
 
 int day1_load_from_file(Day1 *data, const char *filename) {
-    FILE *file = fopen(filename, "rb");
+    FILE *file  = 0;
+    errno_t err = fopen_s(&file, filename, "rb");
 
-    if (!file)
+    if (err)
         return FILENOTFOUND;
 
     fseek(file, 0, SEEK_END);
@@ -86,7 +87,8 @@ void day1_cleanup(Day1 *data) {
 // ---- Solving day 1
 // ------------------------------------------------------------------------------
 void advance_step(Day1 *data) {
-    if (data->finished) return;
+    if (data->finished)
+        return;
     switch (data->line[data->step]) {
     case '(':
         ++data->floor;
@@ -152,20 +154,20 @@ void do_day1(LogManager *man) {
 
         if (!data.finished && ticker == 10) {
             ticker = 0;
-            for(int ii = 0; ii < JUMP; ++ii) {
-            advance_step(&data);
+            for (int ii = 0; ii < JUMP; ++ii) {
+                advance_step(&data);
 
-            if (data.finished) {
-                sprintf(logmessage, "finished, floor = %d", data.floor);
-                log_manager_append(man, logmessage);
-            }
+                if (data.finished) {
+                    sprintf(logmessage, "finished, floor = %d", data.floor);
+                    log_manager_append(man, logmessage);
+                }
 
-            if (!data.underground_reached && data.floor < 0) {
+                if (!data.underground_reached && data.floor < 0) {
 
-                sprintf(logmessage, "reached floor -1 at %d", data.step);
-                log_manager_append(man, logmessage);
-                data.underground_reached = true;
-            }
+                    sprintf(logmessage, "reached floor -1 at %d", data.step);
+                    log_manager_append(man, logmessage);
+                    data.underground_reached = true;
+                }
             }
         }
 

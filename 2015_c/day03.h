@@ -46,9 +46,9 @@ void do_day3(LogManager *man) {
         switch (section) {
         case DAY3_OPENFILE:
             log_manager_appendf(man, "loading file");
-            inputfile = fopen("2015/input/day03.txt", "r");
-            if (!inputfile) {
-                log_manager_appendf(man, "couldn't open input file");
+            int err = fopen_s(&inputfile, "2015/input/day03.txt", "r");
+            if (err) {
+                log_manager_appendf(man, "couldn't open input file; errno = %d", err);
                 section = DAY3_ENDERROR;
                 break;
             }

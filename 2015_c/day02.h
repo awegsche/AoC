@@ -21,7 +21,12 @@ typedef struct {
 Wrapping wrapping_from_string(const char *line) {
     Wrapping w;
 
-    sscanf(line, "%dx%dx%d", &w.sides[0], &w.sides[1], &w.sides[2]);
+    int err = sscanf_s(line, "%dx%dx%d", &w.sides[0], &w.sides[1], &w.sides[2]);
+
+    if (err) {
+        fprintf(stderr, "error reading wrapping %s", line);
+        return w;
+    }
 
     // sort sides
     if (w.sides[0] < w.sides[1]) {
@@ -60,8 +65,7 @@ int calc_total_ribbon(Wrapping *wrappings, size_t count) {
     for (size_t i = 0; i < count; ++i) {
         const Wrapping *w = &wrappings[i];
 
-        total += 2 * (w->sides[1] + w->sides[2]) +
-                 w->sides[0] * w->sides[1] * w->sides[2];
+        total += 2 * (w->sides[1] + w->sides[2]) + w->sides[0] * w->sides[1] * w->sides[2];
     }
     return total;
 }
@@ -96,16 +100,14 @@ void do_day2(LogManager *man) {
         switch (section) {
         case OPENFILE:
             log_manager_appendf(man, "loading file %d", 42);
-            inputfile = fopen("2015/input/day02.txt", "r");
-            if (!inputfile) {
-                log_manager_appendf(man, "couldn't open input file");
+            errno_t err = fopen_s(&inputfile, "2015/input/day02.txt", "r");
+            if (err) {
+                log_manager_appendf(man, "couldn't open input file; errno = %d", err);
                 section = ENDERROR;
             } else {
-                loaded_message = log_manager_appendf(
-                    man, "loading wrappings. %zu wrappings loaded",
-                    wrapping_count);
-                last_w_msg = log_manager_appendf(
-                    man, "last wrapping: ----------------- ");
+                loaded_message = log_manager_appendf(man, "loading wrappings. %zu wrappings loaded",
+                                                     wrapping_count);
+                last_w_msg     = log_manager_appendf(man, "last wrapping: ----------------- ");
                 ++section;
             }
             break;
@@ -115,14 +117,12 @@ void do_day2(LogManager *man) {
                     wrappings[wrapping_count] = wrapping_from_string(line);
                     ++wrapping_count;
 
-                    sprintf(loaded_message,
-                            "loading wrappings. %zu wrappings loaded",
+                    sprintf(loaded_message, "loading wrappings. %zu wrappings loaded",
                             wrapping_count);
 
                     if (wrapping_count == 1024) {
-                        log_manager_appendf(man,
-                                            "end of wrapping buffer reached, "
-                                            "increase buffer size");
+                        log_manager_appendf(man, "end of wrapping buffer reached, "
+                                                 "increase buffer size");
                         section = ENDERROR;
                     }
                 } else {
