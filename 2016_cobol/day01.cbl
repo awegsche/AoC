@@ -4,8 +4,6 @@
        IDENTIFICATION DIVISION.
        PROGRAM-ID.  DAY01.
        AUTHOR. Andreas Wegscheider. 
-       DATE-WRITTEN. 01/01/08. 
-       DATE-COMPILED. 01/01/08. 
        SECURITY. NON-CONFIDENTIAL.
 
       *-----------------------------------------------------------------
@@ -26,7 +24,6 @@
            05 DISTANCE   PIC 9(5).
        01 MOV-PTR        PIC S9(4) COMP.
        01 MOV-CNT        PIC S9(4) COMP.
-
 
        PROCEDURE DIVISION .
 
@@ -136,12 +133,9 @@
 
            IF BYTES-READ = LENGTH OF FILE-BUFFER THEN
                DISPLAY "ERROR: input buffer exhausted. "
+                       "This program has insufficient working storage "
+                       "to handle the specified input file."
 
-
-
-                       
-                  "This program has insufficient working storage to "
-                       "handle the specified input file."
                MOVE -1 TO RETURN-CODE
                EXIT PROGRAM 
            END-IF.

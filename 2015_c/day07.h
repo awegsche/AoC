@@ -25,9 +25,18 @@ typedef enum {
 
 typedef struct {
     uint16_t wires[26][27];
+    char mask[26][27];
 } Wires;
 
 uint16_t *get_wire(Wires *tree, char name[2]) { return &tree->wires[name[0] - 'a'][name[1] - 'a']; }
+
+void set_wire(Wires *tree, char name[2], uint16_t value) {
+    *get_wire(tree, name) = value;
+    tree->mask[name[0] - 'a'][name[1]-'a'] = 1;
+}
+void read_from_wire(Wires *tree, char name[2], uint16_t value) {
+    tree->mask[name[0] - 'a'][name[1]-'a'] = 0;
+}
 
 typedef enum { GATE_NOOP, GATE_SET, GATE_AND, GATE_OR, GATE_LSHIFT, GATE_RSHIFT, GATE_NOT } GateType;
 
@@ -44,27 +53,36 @@ static LogManager *day7_log = 0;
 // ---- gate related functions ---------------------------------------------------------------------
 
 void exec_gate(Gate *gate, Wires *wires) {
+    uint16_t op1 = *get_wire(wires, gate->op1);
+    uint16_t op2 = *get_wire(wires, gate->op2);
     switch (gate->type) {
     case GATE_NOOP:
         break;
     case GATE_SET:
-        *get_wire(wires, gate->target) = gate->value;
+        if (gate->op1[0])
+            *get_wire(wires, gate->target) = *get_wire(wires, gate->op1);
+        else
+            *get_wire(wires, gate->target) = gate->value;
         break;
     case GATE_AND:
-        *get_wire(wires, gate->target) = *get_wire(wires, gate->op1) & *get_wire(wires, gate->op2);
+        if (op1 || op2)
+            *get_wire(wires, gate->target) = op1 & op2;
         break;
     case GATE_OR:
-        *get_wire(wires, gate->target) = *get_wire(wires, gate->op1) | *get_wire(wires, gate->op2);
+        if (op1 || op2)
+            *get_wire(wires, gate->target) = op1 | op2;
         break;
     case GATE_LSHIFT:
-        *get_wire(wires, gate->target) = *get_wire(wires, gate->op1) << gate->value;
+        if (op1)
+            *get_wire(wires, gate->target) = op1 << gate->value;
         break;
     case GATE_RSHIFT:
-        *get_wire(wires, gate->target) = *get_wire(wires, gate->op1) >> gate->value;
+        if (op1)
+            *get_wire(wires, gate->target) = op1 >> gate->value;
         break;
     case GATE_NOT:
-        printf("NOT gate: not %d = %d", *get_wire(wires, gate->op1),~*get_wire(wires, gate->op1));
-        *get_wire(wires, gate->target) = ~*get_wire(wires, gate->op1);
+        if (op1)
+            *get_wire(wires, gate->target) = ~op1;
         break;
     }
 }
@@ -86,9 +104,12 @@ Gate read_gate(const char *str) {
     int iop2;
     char target[16];
     if (sscanf_s(str, "%s -> %s", op1, 16, target, 16) == 2) {
-        // assume set can only store plain values
-        gate.value = atoi(op1);
-        gate.type  = GATE_SET;
+        if (op1[0] >= 'a' && op1[1] <= 'z')
+            assign_op(gate.op1, op1);
+        else {
+            gate.value = atoi(op1);
+        }
+        gate.type = GATE_SET;
         assign_op(gate.target, target);
 
         if (day7_log) {
@@ -188,8 +209,9 @@ void do_day7(LogManager *man) {
             test_gates[5] = read_gate("y RSHIFT 2 -> g");
             test_gates[6] = read_gate("NOT x -> h");
             test_gates[7] = read_gate("NOT y -> i");
+            test_gates[8] = read_gate("NOT a -> j");
 
-            for (int i = 0; i < 8; ++i) {
+            for (int i = 0; i < 9; ++i) {
                 exec_gate(&test_gates[i], &test_wires);
             }
 
@@ -210,6 +232,8 @@ void do_day7(LogManager *man) {
             test(test_wire_address, 65412);
             assign_op(test_wire_address, "i");
             test(test_wire_address, 65079);
+            // assign_op(test_wire_address, "j");
+            // test(test_wire_address, 65079);
 
             log_manager_appendf(man, "finished tests, continue solving puzzle");
             section = DAY7_LOAD_GATES;
@@ -260,15 +284,17 @@ void do_day7(LogManager *man) {
 
         break;
         case DAY7_CALC1: {
-            exec_gate(gates + current_gate, &wires);
-            ++current_gate;
+            for (size_t igate = 0; igate < gate_count; ++igate)
+                exec_gate(gates + igate, &wires);
 
             char wire[2];
             assign_op(wire, "a");
-            sprintf(part1_log_line2, "value of wire 'a': %d", *get_wire(&wires, wire));
+            uint16_t value_of_a = *get_wire(&wires, wire);
+            sprintf(part1_log_line2, "value of wire 'a': %d", value_of_a);
 
-            sprintf(part1_log_line1, "executing gate %4llu", current_gate);
-            if (current_gate == gate_count) {
+            sprintf(part1_log_line1, "executing cycle %4llu", current_gate);
+            ++current_gate;
+            if (value_of_a) {
                 section = DAY7_END_SUCCESS;
             }
         } break;
