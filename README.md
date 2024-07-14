@@ -108,3 +108,16 @@ public:
     }
 };
 ```
+
+### COBOL
+
+`COBOL` programs can be compiled and executed using `gnuCOBOL` on Linux or under WSL
+(I couldn't manage to get `gnuCOBOL` running natively on Windows).
+
+example:
+
+```sh
+cobc day01.cbl -x && ./day01
+```
+
+
