@@ -11,6 +11,9 @@ compile_commands.json
 *zig-out*
 *zig-cache*
 resources
+*.user
+bin
+obj
 
 
 # Added by cargo
