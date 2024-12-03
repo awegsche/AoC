@@ -37,6 +37,7 @@ public abstract class AoCSolution
         logger.Info(part2(input, logger));
         
     }
+
     public bool run_tests(Logger logger)
     {
         TestCase[] testCases = tests();
@@ -46,34 +47,37 @@ public abstract class AoCSolution
         foreach (var testCase in testCases)
         {
             var result = part1(testCase.Input, logger);
-            logger.Info($"Expected: {testCase.ExpectedPart1}, Actual: {result} | ");
+            var test_info = $"Expected: {testCase.ExpectedPart1}, Actual: {result} | ";
             
             if (result != testCase.ExpectedPart1)
             {
-                logger.Info("FAILED");
+                test_info += "FAILED";
                 ok = false;
             }
             else
             {
-                logger.Info("OK");
+                test_info += "OK";
             }
+            
+            logger.Info(test_info);
         }
         
-        logger.Info("Running tests for part2");
+        logger.Info("--------------------\n Running tests for part2\n--------------------");
         bool ok_part2 = true;
         foreach (var testCase in testCases)
         {
             var result = part2(testCase.Input, logger);
-            logger.Info($"Expected: {testCase.ExpectedPart2}, Actual: {result} | ");
+            var test_info = $"Expected: {testCase.ExpectedPart2}, Actual: {result} | ";
             if (result != testCase.ExpectedPart2)
             {
-                logger.Info("FAILED");
+                test_info += "FAILED";
                 ok_part2 = false;
             }
             else
             {
-                logger.Info("OK");
+                test_info += "OK";
             }
+            logger.Info(test_info);
         }
         return ok && ok_part2;
     }

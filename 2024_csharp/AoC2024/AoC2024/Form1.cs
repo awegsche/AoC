@@ -15,7 +15,7 @@ public partial class Form1 : Form
         {
             Logger logger = new Logger();
             //run_day(new Day01(), logger);
-            run_day(new Day02(), logger);
+            run_day(new Day03(), logger);
         };
 
         backgroundWorker.ProgressChanged += (sender, args) =>
