@@ -18,60 +18,61 @@ public abstract class AoCSolution
     public abstract string Day { get; }
     public abstract string Title { get; }
         
-    public abstract string part1(IEnumerable<string> input, RichTextBox? terminal);
+    public abstract string part1(IEnumerable<string> input, Logger logger);
     
-    public abstract string part2(IEnumerable<string> input, RichTextBox? terminal);
+    public abstract string part2(IEnumerable<string> input, Logger logger);
 
     public abstract TestCase[] tests();
 
-    public void run_day(RichTextBox terminal)
+    public void run_day(Logger logger)
     {
-        terminal.AppendText(Title + "\n");
+        logger.Info("--------------------\n Solving Day \n--------------------");
         
-        terminal.AppendText("Part1\n");
+        logger.Info("Part1\n----");
         var input = File.ReadLines($"../../../../../inputs/day{Day}.txt");
-        terminal.AppendText(part1(input, terminal) + "\n");
+        logger.Info(part1(input, logger));
        
-        terminal.AppendText("Part2\n");
+        logger.Info("Part2\n----");
         input = File.ReadLines($"../../../../../inputs/day{Day}.txt");
-        terminal.AppendText(part2(input, terminal) + "\n");
+        logger.Info(part2(input, logger));
         
     }
-    public bool run_tests(RichTextBox terminal)
+    public bool run_tests(Logger logger)
     {
         TestCase[] testCases = tests();
         
-        terminal.AppendText("Running tests for part1\n");
+        logger.Info("--------------------\n Running tests for part1\n--------------------");
         bool ok = true;
         foreach (var testCase in testCases)
         {
-            var result = part1(testCase.Input, terminal);
-            terminal.AppendText($"Expected: {testCase.ExpectedPart1}, Actual: {result} | ");
+            var result = part1(testCase.Input, logger);
+            logger.Info($"Expected: {testCase.ExpectedPart1}, Actual: {result} | ");
+            
             if (result != testCase.ExpectedPart1)
             {
-                terminal.AppendText("FAILED\n");
+                logger.Info("FAILED");
                 ok = false;
             }
             else
             {
-                terminal.AppendText("OK\n");
+                logger.Info("OK");
             }
         }
         
-        terminal.AppendText("Running tests for part2\n");
+        logger.Info("Running tests for part2");
         bool ok_part2 = true;
         foreach (var testCase in testCases)
         {
-            var result = part2(testCase.Input, terminal);
-            terminal.AppendText($"Expected: {testCase.ExpectedPart2}, Actual: {result} | ");
+            var result = part2(testCase.Input, logger);
+            logger.Info($"Expected: {testCase.ExpectedPart2}, Actual: {result} | ");
             if (result != testCase.ExpectedPart2)
             {
-                terminal.AppendText("FAILED\n");
+                logger.Info("FAILED");
                 ok_part2 = false;
             }
             else
             {
-                terminal.AppendText("OK\n");
+                logger.Info("OK");
             }
         }
         return ok && ok_part2;

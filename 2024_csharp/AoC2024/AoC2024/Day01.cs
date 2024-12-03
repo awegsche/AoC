@@ -5,7 +5,7 @@ public class Day01: AoCSolution
     public override string Day => "01";
     public override string Title => "Historian";
 
-    private (List<int>, List<int>) parse_input(IEnumerable<string> input, RichTextBox? terminal)
+    private (List<int>, List<int>) parse_input(IEnumerable<string> input, Logger logger)
     {
         List<int> a = new List<int>();
         List<int> b = new List<int>();
@@ -15,9 +15,9 @@ public class Day01: AoCSolution
             var s = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
             if (s.Length != 2)
             {
-                terminal?.AppendText("ERROR\n");
-                terminal?.AppendText($"ERROR: {line}\n");
-                terminal?.AppendText($"s length: {s.Length}\n");
+                logger.Info("ERROR");
+                logger.Info($"ERROR: {line}");
+                logger.Info($"s length: {s.Length}");
                 break;
             }
             
@@ -31,23 +31,23 @@ public class Day01: AoCSolution
         
         return (a, b);
     }
-    public override string part1(IEnumerable<string> input, RichTextBox? terminal)
+    public override string part1(IEnumerable<string> input, Logger logger)
     {
-        var (a, b) = parse_input(input, terminal);
+        var (a, b) = parse_input(input, logger);
         return a.Zip(b)
             .Select(tuple => Math.Abs(tuple.First - tuple.Second))
             .Sum()
             .ToString();
     }
 
-    public override string part2(IEnumerable<string> input, RichTextBox? terminal)
+    public override string part2(IEnumerable<string> input, Logger logger)
     {
-        var (a, b) = parse_input(input, terminal);
+        var (a, b) = parse_input(input, logger);
         
         Dictionary<int, int> occurances = new Dictionary<int, int>();
 
 
-        terminal.AppendText($"counting occurances\n");
+        logger.Info($"counting occurances");
         foreach (var i in b)
         {
             if (!occurances.TryAdd(i, i))
@@ -56,7 +56,7 @@ public class Day01: AoCSolution
             }
         }
         
-        terminal.AppendText("calculating similarity score\n");
+        logger.Info("calculating similarity score");
         var scores = a.Select(id =>
         {
             int value = 0;
