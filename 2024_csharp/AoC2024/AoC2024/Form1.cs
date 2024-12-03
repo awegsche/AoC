@@ -20,12 +20,32 @@ public partial class Form1 : Form
 
         backgroundWorker.ProgressChanged += (sender, args) =>
         {
-            var logs = args.UserState as string[];
+            var log = args.UserState as LogMsg;
 
-            foreach (var log in logs)
+            if (log == null) return;
+            switch (log.Type)
             {
-                terminal.AppendText(log + "\n");
+                case LogMsg.MessageType.Info:
+                    terminal.SelectionFont = InfoFont;
+                    terminal.SelectionColor = InfoColor;
+                    break;
+                case LogMsg.MessageType.Warning:
+                    terminal.SelectionFont = WarnFont;
+                    terminal.SelectionColor = InfoColor;
+                    break;
+                case LogMsg.MessageType.Error:
+                    terminal.SelectionFont = WarnFont;
+                    terminal.SelectionColor = ErrorColor;
+                    break;
+                case LogMsg.MessageType.Solution:
+                    terminal.SelectionFont = SolutionFont;
+                    terminal.SelectionColor = SolutionColor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
+            terminal.AppendText(log?.Message + "\n");
         };
         
         backgroundWorker.WorkerReportsProgress = true;
@@ -36,7 +56,11 @@ public partial class Form1 : Form
     private void flush_logger(Logger logger)
     {
         var logs = logger.Flush();
-        backgroundWorker.ReportProgress(0, logs);
+        foreach (var log in logs)
+        {
+            Thread.Sleep(10);
+            backgroundWorker.ReportProgress(0, log);
+        }
     }
 
     private void run_day(AoCSolution day, Logger logger)
@@ -56,13 +80,13 @@ public partial class Form1 : Form
         }
         catch (NotImplementedException e)
         {
-            logger.Info("--------------------\nSeems parts of the solution aren't implemented yet:");
-            logger.Info(e.Message);
+            logger.Error("--------------------\nSeems parts of the solution aren't implemented yet:");
+            logger.Error(e.Message);
         }
         catch (Exception e)
         {
-            logger.Info("--------------------\nUnknown execption raised:");
-            logger.Info(e.Message);
+            logger.Error("--------------------\nUnknown execption raised:");
+            logger.Error(e.Message);
         }
         flush_logger(logger);
 
@@ -79,5 +103,12 @@ public partial class Form1 : Form
     }
 
     private readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
+    private readonly Font InfoFont = new Font("Iosevka Term", 12, FontStyle.Regular);
+    private readonly Font WarnFont = new Font("Iosevka Term", 12, FontStyle.Regular);
+    private readonly Font SolutionFont = new Font("Iosevka Term", 12, FontStyle.Bold);
     
+    private readonly Color ErrorColor = Color.Red;
+    private readonly Color InfoColor = Color.Green;
+    private readonly Color SolutionColor = Color.Yellow;
+
 }

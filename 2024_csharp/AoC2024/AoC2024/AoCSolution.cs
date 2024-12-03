@@ -30,11 +30,11 @@ public abstract class AoCSolution
         
         logger.Info("Part1\n----");
         var input = File.ReadLines($"../../../../../inputs/day{Day}.txt");
-        logger.Info(part1(input, logger));
+        logger.Solution(part1(input, logger));
        
         logger.Info("Part2\n----");
         input = File.ReadLines($"../../../../../inputs/day{Day}.txt");
-        logger.Info(part2(input, logger));
+        logger.Solution(part2(input, logger));
         
     }
 
