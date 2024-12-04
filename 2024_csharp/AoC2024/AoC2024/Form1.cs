@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using Microsoft.VisualBasic.Logging;
 
 namespace AoC2024;
 
@@ -8,17 +7,18 @@ public partial class Form1 : Form
     public Form1()
     {
         InitializeComponent();
-        
-        terminal.Text = "Hello World!\n";
 
-        backgroundWorker.DoWork += (sender, args) =>
+        _backgroundWorker.DoWork += (sender, _) =>
         {
-            Logger logger = new Logger();
+            var logger = new Logger();
             //run_day(new Day01(), logger);
-            run_day(new Day03(), logger);
+            //run_day(new Day02(), logger);
+            //run_day(new Day03(), logger);
+            run_day(new Day04(), logger);
+            
         };
 
-        backgroundWorker.ProgressChanged += (sender, args) =>
+        _backgroundWorker.ProgressChanged += (sender, args) =>
         {
             var log = args.UserState as LogMsg;
 
@@ -26,31 +26,31 @@ public partial class Form1 : Form
             switch (log.Type)
             {
                 case LogMsg.MessageType.Info:
-                    terminal.SelectionFont = InfoFont;
-                    terminal.SelectionColor = InfoColor;
+                    terminal.SelectionFont = _infoFont;
+                    terminal.SelectionColor = _infoColor;
                     break;
                 case LogMsg.MessageType.Warning:
-                    terminal.SelectionFont = WarnFont;
-                    terminal.SelectionColor = InfoColor;
+                    terminal.SelectionFont = _warnFont;
+                    terminal.SelectionColor = _infoColor;
                     break;
                 case LogMsg.MessageType.Error:
-                    terminal.SelectionFont = WarnFont;
-                    terminal.SelectionColor = ErrorColor;
+                    terminal.SelectionFont = _warnFont;
+                    terminal.SelectionColor = _errorColor;
                     break;
                 case LogMsg.MessageType.Solution:
-                    terminal.SelectionFont = SolutionFont;
-                    terminal.SelectionColor = SolutionColor;
+                    terminal.SelectionFont = _solutionFont;
+                    terminal.SelectionColor = _solutionColor;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            terminal.AppendText(log?.Message + "\n");
+            terminal.AppendText(log.Message + "\n");
         };
         
-        backgroundWorker.WorkerReportsProgress = true;
+        _backgroundWorker.WorkerReportsProgress = true;
         
-        backgroundWorker.RunWorkerAsync();
+        _backgroundWorker.RunWorkerAsync();
     }
 
     private void flush_logger(Logger logger)
@@ -58,8 +58,8 @@ public partial class Form1 : Form
         var logs = logger.Flush();
         foreach (var log in logs)
         {
-            Thread.Sleep(10);
-            backgroundWorker.ReportProgress(0, log);
+            Thread.Sleep(200);
+            _backgroundWorker.ReportProgress(0, log);
         }
     }
 
@@ -96,19 +96,19 @@ public partial class Form1 : Form
         }
         catch (Exception e)
         {
-            logger.Info("-------------------\nERROR:");
-            logger.Info(e.Message);
+            logger.Error("-------------------\nERROR:");
+            logger.Error(e.Message);
         }
         flush_logger(logger);
     }
 
-    private readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
-    private readonly Font InfoFont = new Font("Iosevka Term", 12, FontStyle.Regular);
-    private readonly Font WarnFont = new Font("Iosevka Term", 12, FontStyle.Regular);
-    private readonly Font SolutionFont = new Font("Iosevka Term", 12, FontStyle.Bold);
+    private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
+    private readonly Font _infoFont = new Font("Iosevka Term", 12, FontStyle.Regular);
+    private readonly Font _warnFont = new Font("Iosevka Term", 12, FontStyle.Regular);
+    private readonly Font _solutionFont = new Font("Iosevka Term", 12, FontStyle.Bold);
     
-    private readonly Color ErrorColor = Color.Red;
-    private readonly Color InfoColor = Color.Green;
-    private readonly Color SolutionColor = Color.Yellow;
+    private readonly Color _errorColor = Color.Red;
+    private readonly Color _infoColor = Color.Green;
+    private readonly Color _solutionColor = Color.Yellow;
 
 }
