@@ -14,7 +14,8 @@ public partial class Form1 : Form
             //run_day(new Day01(), logger);
             //run_day(new Day02(), logger);
             //run_day(new Day03(), logger);
-            run_day(new Day04(), logger);
+            //run_day(new Day04(), logger);
+            run_day(new Day05(), logger);
             
         };
 
