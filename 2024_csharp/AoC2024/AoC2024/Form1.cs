@@ -15,7 +15,7 @@ public partial class Form1 : Form
             //run_day(new Day02(), logger);
             //run_day(new Day03(), logger);
             //run_day(new Day04(), logger);
-            run_day(new Day05(), logger);
+            RunDay(new Day05(), logger);
             
         };
 
@@ -42,6 +42,10 @@ public partial class Form1 : Form
                     terminal.SelectionFont = _solutionFont;
                     terminal.SelectionColor = _solutionColor;
                     break;
+                case LogMsg.MessageType.Debug:
+                    terminal.SelectionFont = _infoFont;
+                    terminal.SelectionColor = _debugColor;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -54,17 +58,17 @@ public partial class Form1 : Form
         _backgroundWorker.RunWorkerAsync();
     }
 
-    private void flush_logger(Logger logger)
+    private void FlushLogger(Logger logger, LogMsg.MessageType maxLevel = LogMsg.MessageType.Debug)
     {
         var logs = logger.Flush();
-        foreach (var log in logs)
+        foreach (var log in logs.Where(l => l.Type <= maxLevel))
         {
             Thread.Sleep(200);
             _backgroundWorker.ReportProgress(0, log);
         }
     }
 
-    private void run_day(AoCSolution day, Logger logger)
+    private void RunDay(AoCSolution day, Logger logger)
     {
         logger.Info($"\n===============================\n= Day {day.Day,2} : {day.Title,18} =\n===============================");
         try
@@ -89,7 +93,7 @@ public partial class Form1 : Form
             logger.Error("--------------------\nUnknown execption raised:");
             logger.Error(e.Message);
         }
-        flush_logger(logger);
+        FlushLogger(logger);
 
         try
         {
@@ -100,7 +104,7 @@ public partial class Form1 : Form
             logger.Error("-------------------\nERROR:");
             logger.Error(e.Message);
         }
-        flush_logger(logger);
+        FlushLogger(logger, LogMsg.MessageType.Info);
     }
 
     private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
@@ -111,5 +115,6 @@ public partial class Form1 : Form
     private readonly Color _errorColor = Color.Red;
     private readonly Color _infoColor = Color.Green;
     private readonly Color _solutionColor = Color.Yellow;
+    private readonly Color _debugColor = Color.DarkCyan;
 
 }
